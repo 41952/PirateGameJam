@@ -11,9 +11,9 @@ public abstract class WeaponBase : MonoBehaviour
     public float reloadTime;
     public int level = 1;
 
-    private float lastFireTime;
-    private float reloadTimer;
-    private bool isReloading = false;
+    [HideInInspector] public float lastFireTime;
+    [HideInInspector] public float reloadTimer;
+    [HideInInspector] public bool isReloading = false;
 
     protected List<SynergyBase> synergies = new();
 
@@ -72,6 +72,7 @@ public abstract class WeaponBase : MonoBehaviour
     public virtual void AddLevel()
     {
         level++;
+        InventoryManager.Instance.CheckSynergies();
         Debug.Log($"{weaponName} level up to {level}");
         foreach (var s in synergies)
             s.OnLevelUp();

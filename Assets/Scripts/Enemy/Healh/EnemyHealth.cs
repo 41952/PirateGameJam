@@ -22,6 +22,12 @@ public class EnemyHealth : MonoBehaviour
             OnDeath?.Invoke();
     }
 
+    public void Die()
+    {
+        OnDeath?.Invoke();
+    }
+
+
     public float GetHealthPercent() => currentHP / maxHP;
     public float GetCurrentHealth() => currentHP;
 }

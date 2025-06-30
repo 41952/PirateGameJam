@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 public class DeadState : State
 {
     public DeadState(EnemyAI o, StateMachine s): base(o,s){}
@@ -19,7 +20,17 @@ public class DeadState : State
                 stoppedAllies.Add(ai);
             }
         }
+        owner.StartCoroutine(DeathAnim());
 
+    }
+
+    private IEnumerator DeathAnim()
+    {
+        float timer = 0f;
+        while(timer < 0.5f)
+        {
+            timer += Time.deltaTime; yield return null;
+        }
         owner.gameObject.SetActive(false);
     }
     public override void Tick() { }

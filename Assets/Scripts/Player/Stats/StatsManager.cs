@@ -8,10 +8,10 @@ using UnityEngine;
         private void Awake()
         {
             // Инициализация базовых статов (примеры значений)
-            _stats[StatType.Health] = new Stat(StatType.Health, 100f);
-            _stats[StatType.HealthRegen] = new Stat(StatType.HealthRegen, 1f);
-            _stats[StatType.Speed] = new Stat(StatType.Speed, 1f);
-            _stats[StatType.Damage] = new Stat(StatType.Damage, 1f);
+            _stats[StatType.Health] = new Stat(StatType.Health, 100f, this);
+            _stats[StatType.HealthRegen] = new Stat(StatType.HealthRegen, 1f, this);
+            _stats[StatType.Speed] = new Stat(StatType.Speed, 1f, this);
+            _stats[StatType.Damage] = new Stat(StatType.Damage, 1f, this);
         }
 
         private void Update()

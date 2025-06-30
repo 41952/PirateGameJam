@@ -16,7 +16,7 @@ public abstract class StatListener : MonoBehaviour
             if (BoundStat == null)
                 BoundStat = StatsContainer.GetStat(GetStatType());
 
-            BoundStat.OnStatChanged += OnStatChanged;
+            GameEvents.OnStatChanged += HandleStatChanged;
             OnStatChanged(GetStatType(), BoundStat.FinalValue);
 }
 
@@ -24,11 +24,18 @@ public abstract class StatListener : MonoBehaviour
         protected virtual void OnDisable()
         {
             if (BoundStat != null)
-                BoundStat.OnStatChanged -= OnStatChanged;
+                GameEvents.OnStatChanged -= HandleStatChanged;
+        }
+        private void HandleStatChanged(StatsContainer source, StatType type, float newValue)
+        {
+            if (source != StatsContainer) return;
+            if (type != GetStatType()) return;
+
+            OnStatChanged(type, newValue);
         }
 
         // Должен возвращать тип стата для подписки
-        protected abstract StatType GetStatType();
+    protected abstract StatType GetStatType();
         // Вызывается при изменении стата
         protected abstract void OnStatChanged(StatType type, float newValue);
     }

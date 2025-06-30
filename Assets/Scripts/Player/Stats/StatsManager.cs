@@ -1,93 +1,56 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class StatsManager : MonoBehaviour
-{
-    // Статы
-    private float health = 100f;
-    private float healthRegen = 1f;
-    private float speed = 5f;
-    private float damage = 10f;
-
-    public event Action OnStatsChanged;
-    public float Health
+    public class StatsContainer : MonoBehaviour
     {
-        get => health;
-        private set
+        private readonly Dictionary<StatType, Stat> _stats = new Dictionary<StatType, Stat>();
+
+        private void Awake()
         {
-            if (health != value)
+            // Инициализация базовых статов (примеры значений)
+            _stats[StatType.Health] = new Stat(StatType.Health, 100f);
+            _stats[StatType.HealthRegen] = new Stat(StatType.HealthRegen, 1f);
+            _stats[StatType.Speed] = new Stat(StatType.Speed, 1f);
+            _stats[StatType.Damage] = new Stat(StatType.Damage, 1f);
+        }
+
+        private void Update()
+        {
+            float dt = Time.deltaTime;
+
+            // Тикаем модификаторы и удаляем истекшие
+            foreach (var stat in _stats.Values)
             {
-                health = value;
-                NotifyStatsChanged();
+                var expired = stat.TickModifiers(dt);
+                foreach (var mod in expired)
+                    stat.RemoveModifier(mod);
             }
         }
-    }
 
-    public float HealthRegen
-    {
-        get => healthRegen;
-        private set
+        // Получить конкретный стат
+        public Stat GetStat(StatType type)
         {
-            if (healthRegen != value)
+            return _stats[type];
+        }
+
+        // Применить бафф к стату
+        public void ApplyModifier(StatModifier mod)
+        {
+            if (_stats.TryGetValue(mod.TargetStat, out var stat))
             {
-                healthRegen = value;
-                NotifyStatsChanged();
+                stat.AddModifier(mod);
+
+                // Специальный хук для баффов, которым нужно знать об объекте
+                if (mod is HealthBuff hb)
+                {
+                    hb.OnApplied(gameObject);
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Stat {mod.TargetStat} not found on {gameObject.name}");
             }
         }
+
     }
 
-    public float Speed
-    {
-        get => speed;
-        private set
-        {
-            if (speed != value)
-            {
-                speed = value;
-                NotifyStatsChanged();
-            }
-        }
-    }
-
-    public float Damage
-    {
-        get => damage;
-        private set
-        {
-            if (damage != value)
-            {
-                damage = value;
-                NotifyStatsChanged();
-            }
-        }
-    }
-
-    private void NotifyStatsChanged()
-    {
-        OnStatsChanged?.Invoke();
-    }
-    public void UpgradeHealth(float amount)
-    {
-        Health += amount;
-    }
-
-    public void UpgradeHealthRegen(float amount)
-    {
-        HealthRegen += amount;
-    }
-
-    public void UpgradeSpeed(float amount)
-    {
-        Speed += amount;
-    }
-
-    public void UpgradeDamage(float amount)
-    {
-        Damage += amount;
-    }
-
-    public (float health, float regen, float speed, float damage) GetAllStats()
-    {
-        return (health, healthRegen, speed, damage);
-    }
-}

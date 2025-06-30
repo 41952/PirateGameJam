@@ -5,6 +5,7 @@ public abstract class WeaponBase : MonoBehaviour
 {
     public string weaponName;
     public float baseDamage;
+    public float baseDamageMultiplier;
     public float fireRate;
     public int magazineSize;
     public int currentAmmo;

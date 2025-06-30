@@ -8,6 +8,8 @@ public class Movement : MonoBehaviour
     public float runMultiplier = 1.6f;
     public float jumpPower = 5f;
 
+    public float speedMultiplier = 1f;
+
     private Rigidbody rb;
     private GroundCheck gc;
 
@@ -45,6 +47,8 @@ public class Movement : MonoBehaviour
 
         if (isRunning && z > 0f)
             speed *= runMultiplier;
+
+        speed *= speedMultiplier;
 
         if (gc.onGround)
         {

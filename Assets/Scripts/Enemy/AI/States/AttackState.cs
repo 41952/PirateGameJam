@@ -1,36 +1,28 @@
 using UnityEngine;
-
 using System;
 public class AttackState : State
 {
-    private float lastAttackTime;
-    public AttackState(EnemyAI owner, StateMachine sm) : base(owner, sm) { }
-
-    public override void Enter() => lastAttackTime = Time.time - owner.attackCooldown;
-
+    private float lastAttack;
+    public AttackState(EnemyAI o, StateMachine s): base(o,s){}
+    public override void Enter() { lastAttack = Time.time - owner.attackCooldown; }
     public override void Tick()
     {
-        // Y-axis only rotation
-        Vector3 rawDir = owner.player.position - owner.transform.position;
-        Vector3 dir = new Vector3(rawDir.x, 0, rawDir.z).normalized;
-        owner.transform.rotation = Quaternion.LookRotation(dir);
-
+        RotateY();
         float dist = Vector3.Distance(owner.player.position, owner.transform.position);
-        if (dist > owner.agent.stoppingDistance || !owner.CanDetectPlayer())
-        {
+        if(dist > owner.agent.stoppingDistance || !owner.CanDetectPlayer())
             stateMachine.ChangeState(new ChaseState(owner, stateMachine));
-            return;
-        }
-
-        // Check both global and local cooldowns
-        if (Time.time - lastAttackTime >= owner.attackCooldown && AttackCooldownManager.CanGlobalAttack())
+        else if(Time.time - lastAttack >= owner.attackCooldown && AttackCooldownManager.CanGlobalAttack())
         {
-            // TODO: implement attack logic/animation here
-            Debug.Log("ATTACK!~");
-            lastAttackTime = Time.time;
+            // perform attack
+            var ph = owner.player.GetComponent<PlayerHealthSystem>();
+            if(ph!=null) ph.TakeDamage(owner.attackDamage);
+            lastAttack = Time.time;
             AttackCooldownManager.NotifyGlobalAttack();
         }
     }
-
-    public override void Exit() { }
+    private void RotateY()
+    {
+        Vector3 raw=owner.player.position - owner.transform.position;
+        owner.transform.rotation = Quaternion.LookRotation(new Vector3(raw.x,0,raw.z).normalized);
+    }
 }

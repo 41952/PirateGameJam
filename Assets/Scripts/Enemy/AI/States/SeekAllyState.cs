@@ -22,7 +22,11 @@ public class SeekAllyState : State
     }
     public override void Tick()
     {
-        if (targetAlly == null) return;
+        if (targetAlly == null)
+        {
+            stateMachine.ChangeState(new ChaseState(owner, stateMachine));
+            return;
+        }
         RotateY();
         if (owner.agent.isOnOffMeshLink)
         {

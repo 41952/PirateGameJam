@@ -6,13 +6,17 @@ public class AutoRifle : WeaponBase
     [Header("HitScan Settings")]
     public Transform firePoint; // точка, откуда идёт выстрел
     public float fireRange = 100f;
+    public float projectileSpeed;
 
     [ContextMenu("LevelUP!~")]
-    public override void AddLevel()
+    public virtual void AddLevel()
     {
-        level++;
+        level++; // <- пусть здесь будет
         InventoryManager.Instance.CheckSynergies();
         Debug.Log($"{weaponName} level up to {level}");
+
+        GetComponent<WeaponLevelApplier>()?.ApplyLevel();
+
         foreach (var s in synergies)
             s.OnLevelUp();
     }
@@ -27,7 +31,6 @@ public class AutoRifle : WeaponBase
 
         Debug.Log($"{weaponName} shoot!~ Current Ammo: {currentAmmo}");
 
-        // 🔫 HitScan логика
         if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, fireRange))
         {
             Debug.DrawLine(firePoint.position, hit.point, Color.red, 1f);
@@ -37,9 +40,10 @@ public class AutoRifle : WeaponBase
 
             if (hit.collider.TryGetComponent(out IDamageReceiver receiver))
             {
-                DamageData data = new DamageData(baseDamage, 1f, DamageType.Bullet, zone);
+                
+                DamageData data = new DamageData(baseDamage * baseDamageMultiplier, 1f, DamageType.Bullet, zone);
                 receiver.TakeDamage(data);
-                Debug.Log($"Hit {hit.collider.name} for {baseDamage} ({zone})");
+                Debug.Log($"Hit {hit.collider.name} for {baseDamage * baseDamageMultiplier} ({zone})");
             }
         }
 

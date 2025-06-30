@@ -16,4 +16,4 @@ public struct DamageData
 }
 
 public enum DamageType { Bullet, Explosion, Melee }
-public enum HitZone { Head, Body, Back, Armor }
+public enum HitZone { Head, Body, Back, Armor, Heart }

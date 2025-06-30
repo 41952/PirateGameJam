@@ -22,6 +22,7 @@ public class HeartHitPart : HitPartBase
 
     public override void TakeDamage(DamageData data)
     {
+        data.type = DamageType.Explosion;
         // Смертельный урон владельцу сердца
         enemyHealth.ReceiveDamage(999999f, data);
 
@@ -40,7 +41,8 @@ public class HeartHitPart : HitPartBase
         {
             if (hit.TryGetComponent(out EnemyHealth enemy))
             {
-                enemy.ReceiveDamage(explosionDamage, new DamageData { baseDamage = explosionDamage });
+                DamageData data = new DamageData(explosionDamage, 1f, DamageType.Explosion, HitZone.Heart);
+                enemy.ReceiveDamage(explosionDamage, data);
             }
         }
 
@@ -66,7 +68,7 @@ public class HeartHitPart : HitPartBase
                     stats.ApplyModifier(new Game.Buffs.RegenBuff(Duration));
                     break;
                 case StatType.Health:
-                    stats.ApplyModifier(new HealthBuff(1.5f, Duration));
+                    stats.ApplyModifier(new HealthBuff(4f, Duration));
                     break;
             }
         }

@@ -35,7 +35,9 @@ public class EnemyAI : MonoBehaviour
 
     [HideInInspector] public UnityEngine.AI.NavMeshAgent agent;
     private StateMachine stateMachine;
+
     [HideInInspector] public EnemyHealth health;
+    
 
     void Awake()
     {
@@ -48,11 +50,12 @@ public class EnemyAI : MonoBehaviour
 
     private void OnEnable()
     {
-        health.OnDamageTaken += OnDamageTaken;
+        GameEvents.OnEnemyDamaged += OnAnyEnemyDamaged;
     }
+
     private void OnDisable()
     {
-        health.OnDamageTaken -= OnDamageTaken;
+        GameEvents.OnEnemyDamaged -= OnAnyEnemyDamaged;
     }
 
     void Start()
@@ -92,15 +95,18 @@ public class EnemyAI : MonoBehaviour
         if (CanDetectPlayer()) lastDetectedTime = Time.time;
     }
 
-    private void OnDamageTaken(float damage, DamageData data)
+    private void OnAnyEnemyDamaged(EnemyHealth target, float damage, DamageData data)
     {
-        float percent = health.GetHealthPercent();
-        if (percent <= 0f)
-            stateMachine.ChangeState(new DeadState(this, stateMachine));
-        else if (percent <= 0.1f)
-            stateMachine.ChangeState(new TransferHeartState(this, stateMachine));
-        else if (percent <= 0.33f)
-            stateMachine.ChangeState(new SeekAllyState(this, stateMachine));
+        if (target == health)
+        {
+            float percent = health.GetHealthPercent();
+            if (percent <= 0f)
+                stateMachine.ChangeState(new DeadState(this, stateMachine));
+            else if (percent <= 0.1f)
+                stateMachine.ChangeState(new TransferHeartState(this, stateMachine));
+            else if (percent <= 0.33f)
+                stateMachine.ChangeState(new SeekAllyState(this, stateMachine));
+        }
     }
 
     public bool PlayerInMemory => Time.time - lastDetectedTime <= memoryDuration;

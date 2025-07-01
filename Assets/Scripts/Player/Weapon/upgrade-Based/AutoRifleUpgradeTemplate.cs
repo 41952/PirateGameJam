@@ -28,5 +28,10 @@ public class AutoRifleUpgradeTemplate : WeaponUpgradeTemplate
                 f.projectileSpeed = projectileSpeed;
             }
         }
+        public override string GetUpgradeDescription()
+        {
+            return base.GetUpgradeDescription() + $", \n Скорость проджектайла: {projectileSpeed}";
+        }
     }
+
 }

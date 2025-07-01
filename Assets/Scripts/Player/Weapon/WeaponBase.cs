@@ -12,6 +12,8 @@ public abstract class WeaponBase : MonoBehaviour
     public float reloadTime;
     public int level = 1;
 
+    public int maxLevel = 6;
+
 
     [HideInInspector] public float lastFireTime;
     [HideInInspector] public float reloadTimer;
@@ -89,4 +91,6 @@ public abstract class WeaponBase : MonoBehaviour
         synergies.Add(synergy);
         synergy.Init(this);
     }
+
+    public int GetLevel() => level;
 }

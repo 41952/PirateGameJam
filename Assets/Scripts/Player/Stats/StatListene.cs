@@ -2,7 +2,6 @@ using UnityEngine;
 
 public abstract class StatListener : MonoBehaviour
     {
-        [SerializeField] private StatsContainer StatsContainer;
         protected Stat BoundStat;
 
         private void OnEnable()
@@ -14,11 +13,11 @@ public abstract class StatListener : MonoBehaviour
         {
             yield return null; // подождать 1 кадр — Awake() точно вызовется
             if (BoundStat == null)
-                BoundStat = StatsContainer.GetStat(GetStatType());
+                BoundStat = StatsContainer.Instance.GetStat(GetStatType());
 
             GameEvents.OnStatChanged += HandleStatChanged;
             OnStatChanged(GetStatType(), BoundStat.FinalValue);
-}
+        }
 
 
         protected virtual void OnDisable()
@@ -28,7 +27,7 @@ public abstract class StatListener : MonoBehaviour
         }
         private void HandleStatChanged(StatsContainer source, StatType type, float newValue)
         {
-            if (source != StatsContainer) return;
+            if (source != StatsContainer.Instance) return;
             if (type != GetStatType()) return;
 
             OnStatChanged(type, newValue);

@@ -1,24 +1,23 @@
 using UnityEngine;
 
-
 public class ShotGun : WeaponBase
 {
     [Header("HitScan Settings")]
-    public Transform firePoint; // точка, откуда идёт выстрел
+    private Transform firePoint;
     public float fireRange = 100f;
-    public float projectileSpeed;
 
-    [ContextMenu("LevelUP!~")]
-    public virtual void AddLevel()
+    [Header("Shotgun Settings")]
+    public int pelletsPerShot = 12;
+    public float spreadAngle = 5f;
+
+    [Header("Melee Settings")]
+    public float meleeRange = 3f;
+    public float meleeAngle = 60f;
+
+    private void Awake()
     {
-        level++; // <- пусть здесь будет
-        InventoryManager.Instance.CheckSynergies();
-        Debug.Log($"{weaponName} level up to {level}");
-
-        GetComponent<WeaponLevelApplier>()?.ApplyLevel();
-
-        foreach (var s in synergies)
-            s.OnLevelUp();
+        if (firePoint == null && Camera.main != null)
+            firePoint = Camera.main.transform;
     }
 
     public override void Fire()
@@ -31,19 +30,19 @@ public class ShotGun : WeaponBase
 
         Debug.Log($"{weaponName} shoot!~ Current Ammo: {currentAmmo}");
 
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, fireRange))
+        for (int i = 0; i < pelletsPerShot; i++)
         {
-            Debug.DrawLine(firePoint.position, hit.point, Color.red, 1f);
-
-            HitZone zone = HitZone.Body;
-
-
-            if (hit.collider.TryGetComponent(out IDamageReceiver receiver))
+            Vector3 spreadDir = GetSpreadDirection(firePoint.forward, spreadAngle);
+            if (Physics.Raycast(firePoint.position, spreadDir, out RaycastHit hit, fireRange))
             {
-                
-                DamageData data = new DamageData(baseDamage * baseDamageMultiplier, 1f, DamageType.Bullet, zone);
-                receiver.TakeDamage(data);
-                Debug.Log($"Hit {hit.collider.name} for {baseDamage * baseDamageMultiplier} ({zone})");
+                Debug.DrawLine(firePoint.position, hit.point, Color.yellow, 1f);
+
+                if (hit.collider.TryGetComponent(out IDamageReceiver receiver))
+                {
+                    DamageData data = new DamageData(baseDamage * baseDamageMultiplier, 1f, DamageType.Bullet, HitZone.Body);
+                    receiver.TakeDamage(data);
+                    Debug.Log($"Pellet hit {hit.collider.name} for {data.baseDamage}");
+                }
             }
         }
 
@@ -52,5 +51,44 @@ public class ShotGun : WeaponBase
 
         if (currentAmmo <= 0)
             Reload();
+    }
+
+
+    private Vector3 GetSpreadDirection(Vector3 forward, float angle)
+    {
+        // Случайное отклонение в пределах заданного угла
+        float yaw = Random.Range(-angle, angle);
+        float pitch = Random.Range(-angle, angle);
+        Quaternion rot = Quaternion.Euler(pitch, yaw, 0);
+        return rot * forward;
+    }
+
+    public override void MeleeAttack()
+    {
+        Collider[] hits = Physics.OverlapSphere(firePoint.position, meleeRange);
+        int targetsHit = 0;
+
+        foreach (var hit in hits)
+        {
+            Vector3 dirToTarget = (hit.transform.position - firePoint.position).normalized;
+            float angle = Vector3.Angle(firePoint.forward, dirToTarget);
+
+            if (angle <= meleeAngle / 2)
+            {
+                if (hit.TryGetComponent(out IDamageReceiver receiver))
+                {
+                    DamageData data = new DamageData(meleeDamage, 1f, DamageType.Melee, HitZone.Body);
+                    receiver.TakeDamage(data);
+                    Debug.Log($"Melee hit {hit.name} for {meleeDamage}");
+                    targetsHit++;
+                }
+            }
+        }
+    }
+
+    [ContextMenu("LevelUP!~")]
+    public override void AddLevel()
+    {
+        base.AddLevel();
     }
 }

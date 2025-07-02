@@ -19,6 +19,11 @@ public abstract class WeaponBase : MonoBehaviour
     [HideInInspector] public float reloadTimer;
     [HideInInspector] public bool isReloading = false;
 
+    [Header("Melee")]
+    public float meleeCooldown = 1.0f;
+    public float meleeDamage = 25f;
+    protected float lastMeleeTime;
+
     protected List<SynergyBase> synergies = new();
 
 
@@ -41,6 +46,18 @@ public abstract class WeaponBase : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
             AltFire();
+
+        if (Input.GetMouseButton(0))
+            Fire();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            AltFire();
+
+        if (Input.GetKeyDown(KeyCode.F))
+            TryMelee();
+
+        if (Input.GetMouseButtonDown(1))
+            Aim(); // Заглушка
     }
 
     public virtual void Fire()
@@ -65,6 +82,25 @@ public abstract class WeaponBase : MonoBehaviour
         Debug.Log($"{weaponName} altFire!~");
         foreach (var s in synergies)
             s.OnAltFire();
+    }
+
+    public virtual void Aim()
+    {
+        Debug.Log($"{weaponName} aiming (placeholder)");
+    }
+
+    public virtual void TryMelee()
+    {
+        if (Time.time < lastMeleeTime + meleeCooldown)
+            return;
+
+        lastMeleeTime = Time.time;
+        MeleeAttack(); // Вызывается в дочернем классе
+    }
+
+    public virtual void MeleeAttack()
+    {
+        Debug.Log($"{weaponName} melee hit (abstract, override in child)");
     }
 
     public virtual void Reload()

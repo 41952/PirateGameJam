@@ -37,6 +37,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (weapons[index]) Destroy(weapons[index].gameObject);
         weapons[index] = Instantiate(newWeapon, weaponHolder);
+        weapons[index].gameObject.SetActive(false); 
         CheckSynergies();
     }
 

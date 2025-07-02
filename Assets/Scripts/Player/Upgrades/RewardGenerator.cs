@@ -10,7 +10,7 @@ public class RewardGenerator : MonoBehaviour
     {
         public string weaponName;
         public WeaponBase prefab;
-
+        public Sprite baseSprite;
         [TextArea] public string baseDescription;
     }
 
@@ -19,6 +19,7 @@ public class RewardGenerator : MonoBehaviour
     {
         public string equipmentName;
         public EquipmentItem prefab;
+        public Sprite baseSprite;
         [TextArea] public string baseDescription;
     }
 
@@ -86,12 +87,13 @@ public class RewardGenerator : MonoBehaviour
             {
                 var weaponEntry = allWeapons.FirstOrDefault(w => w.prefab == newWeapon);
                 string description = weaponEntry != null ? weaponEntry.baseDescription : "Описание недоступно";
+                Sprite icon = weaponEntry != null ? weaponEntry.baseSprite : defaultWeaponIcon;
                 result.Add(new RewardOptionData
                 {
                     rewardType = RewardType.Weapon,
                     displayName = $"Новое оружие: {newWeapon.weaponName}",
                     description = description,
-                    icon = defaultWeaponIcon,
+                    icon = icon,
                     weaponPrefab = newWeapon,
                     upgradeSlotIndex = Array.IndexOf(weapons, null)
                 });
@@ -106,12 +108,13 @@ public class RewardGenerator : MonoBehaviour
             {
                 var equipmentEntry = allEquipment.FirstOrDefault(w => w.prefab == newEquip);
                 string description = equipmentEntry != null ? equipmentEntry.baseDescription : "Описание недоступно";
+                Sprite icon = equipmentEntry != null ? equipmentEntry.baseSprite : defaultEquipmentIcon;
                 result.Add(new RewardOptionData
                 {
                     rewardType = RewardType.Equipment,
                     displayName = $"Новое снаряжение: {newEquip.equipmentName}",
                     description = description,
-                    icon = defaultEquipmentIcon,
+                    icon = icon,
                     equipmentPrefab = newEquip,
                     upgradeSlotIndex = Array.IndexOf(equipment, null)
                 });
@@ -124,12 +127,14 @@ public class RewardGenerator : MonoBehaviour
             if (weapon != null && weapon.GetLevel() < maxLevelPerSlot)
             {
                 var applier = weapon.GetComponent<WeaponLevelApplier>();
+                var weaponEntry = allWeapons.FirstOrDefault(w => w.prefab.GetType() == weapon.GetType());
+                Sprite icon = weaponEntry != null ? weaponEntry.baseSprite : defaultWeaponIcon;
                 result.Add(new RewardOptionData
                 {
                     rewardType = RewardType.WeaponUpgrade,
                     displayName = $"{weapon.weaponName} → уровень {weapon.GetLevel() + 1}",
                     description = applier ? applier.GetNextLevelDescription() : "Нет данных об улучшении",
-                    icon = defaultWeaponIcon,
+                    icon = icon,
                     upgradeSlotIndex = i
                 });
             }
@@ -142,7 +147,7 @@ public class RewardGenerator : MonoBehaviour
                 // Находим соответствующий EquipmentEntry
                 var equipmentEntry = allEquipment.FirstOrDefault(e => e.prefab.GetType() == equip.GetType());
                 string description = equipmentEntry != null ? equipmentEntry.baseDescription : "Описание недоступно";
-
+                Sprite icon = equipmentEntry != null ? equipmentEntry.baseSprite : defaultEquipmentIcon;
                 result.Add(new RewardOptionData
                 {
                     rewardType = RewardType.EquipmentUpgrade,

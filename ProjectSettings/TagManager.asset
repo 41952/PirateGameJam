@@ -4,6 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Aim
+  - Bullet
   - Body
   - Forward
   layers:
@@ -17,7 +19,7 @@ TagManager:
   - 
   - Ground
   - Player
-  - 
+  - Body
   - 
   - 
   - 

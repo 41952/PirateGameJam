@@ -5,7 +5,6 @@ public class EquipmentItem : MonoBehaviour
     [Header("Link to data")]
     [SerializeField] private EquipmentData data;
 
-    [SerializeField] private StatsContainer _statsContainer;
     public string equipmentName;
     public int level = 1;
     public int maxLevel = 6;
@@ -36,7 +35,7 @@ public class EquipmentItem : MonoBehaviour
         }
 
         float percent = data.percentPerLevel[level]; // e.g. 0.2 для +20%
-        var stat = _statsContainer.GetStat(data.targetStat);
+        var stat = StatsContainer.Instance.GetStat(data.targetStat);
 
         // берём текущее итоговое значение стата и прибавляем к нему нужный процент
         float bonus = stat.FinalValue * percent;

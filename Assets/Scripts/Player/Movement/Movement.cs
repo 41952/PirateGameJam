@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class Movement : MonoBehaviour
 
     private bool jumpCooldown;
 
+    private Vector2 inputDirection = Vector2.zero;
+    private PlayerControls playerControls;
+    private bool isRunning = false;
+    private bool jumpPressed = false;
+
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -25,13 +31,30 @@ public class Movement : MonoBehaviour
         gc = GetComponentInChildren<GroundCheck>();
         body = GameObject.FindWithTag("Body");
         forwardPoint = GameObject.FindWithTag("Forward");
+        playerControls = new PlayerControls();
     }
+    private void OnEnable()
+    {
+        playerControls.MainActionMap.Enable();// врубаем и вырубаем управление на активации/деактивации скрипта
+        //биндим булеан на ивент нажания и удержание кнопки спринта в управлении
+        playerControls.MainActionMap.Sprint.started += context => isRunning = true; //нажали
+        playerControls.MainActionMap.Sprint.performed += context => isRunning = true; //держим
+        playerControls.MainActionMap.Sprint.canceled += context => isRunning = false; //отпустили
+
+
+    }
+    private void OnDisable()
+    {
+        playerControls.MainActionMap.Disable();// врубаем и вырубаем управление на активации/деактивации скрипта
+    }
+  
 
     private void Update()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        inputDirection = playerControls.MainActionMap.Movement.ReadValue<Vector2>();
+        float x = inputDirection.x;
+        float z = inputDirection.y;
+        
 
         Vector3 movementDirection = (x * transform.right + z * transform.forward).normalized;
         float speed = 0f;
@@ -67,7 +90,7 @@ public class Movement : MonoBehaviour
             );
         }
 
-        if (Input.GetButtonDown("Jump") && gc.onGround && !jumpCooldown)
+        if (playerControls.MainActionMap.Jump.triggered && gc.onGround && !jumpCooldown)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);

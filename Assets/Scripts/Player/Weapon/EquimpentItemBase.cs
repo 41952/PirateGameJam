@@ -8,6 +8,7 @@ public class EquipmentItem : MonoBehaviour
     [SerializeField] private StatsContainer _statsContainer;
     public string equipmentName;
     public int level = 1;
+    public int maxLevel = 6;
 
     private void Awake()
     {

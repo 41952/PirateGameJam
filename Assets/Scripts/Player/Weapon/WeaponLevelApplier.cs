@@ -24,4 +24,10 @@ public class WeaponLevelApplier : MonoBehaviour
     {
         ApplyLevel();
     }
+    public string GetNextLevelDescription()
+    {
+        int nextLevel = weapon.level + 1;
+        var data = upgradeData?.GetDataForLevel(nextLevel);
+        return data?.GetUpgradeDescription() ?? "Уровень максимальный";
+    }
 }

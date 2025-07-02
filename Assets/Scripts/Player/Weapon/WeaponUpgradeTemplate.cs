@@ -19,7 +19,6 @@ public abstract class WeaponUpgradeTemplate : ScriptableObject
     public class UpgradeLevelData : IWeaponUpgradeData
     {
         public float damage;
-        public float damageMultiplier;
         public float fireRate;
         public int magazineSize;
         public float reloadTime;
@@ -27,12 +26,20 @@ public abstract class WeaponUpgradeTemplate : ScriptableObject
         public virtual void ApplyTo(WeaponBase weapon)
         {
             weapon.baseDamage = damage;
-            weapon.baseDamageMultiplier = damageMultiplier;
             weapon.fireRate = fireRate;
             weapon.magazineSize = magazineSize;
             weapon.reloadTime = reloadTime;
             weapon.currentAmmo = magazineSize;
         }
+        public virtual string GetUpgradeDescription()
+        {
+            return
+                $"Урон: {damage}\n" +
+                $"Скорострельность: {fireRate}/c\n" +
+                $"Магазин: {magazineSize}\n" +
+                $"Перезарядка: {reloadTime}с";
+        }
     }
+    
 }
 

@@ -7,6 +7,10 @@ public class InventoryManager : MonoBehaviour
     public WeaponBase[] weapons = new WeaponBase[2];
     public EquipmentItem[] equipment = new EquipmentItem[2];
 
+    [Header("Holders")]
+    [SerializeField] private Transform weaponHolder;
+    [SerializeField] private Transform equipmentHolder;
+
     [System.Serializable]
     public class SynergyEntry
     {
@@ -32,14 +36,14 @@ public class InventoryManager : MonoBehaviour
     public void ReplaceWeapon(int index, WeaponBase newWeapon)
     {
         if (weapons[index]) Destroy(weapons[index].gameObject);
-        weapons[index] = Instantiate(newWeapon, transform);
+        weapons[index] = Instantiate(newWeapon, weaponHolder);
         CheckSynergies();
     }
 
     public void ReplaceEquipment(int index, EquipmentItem newEquipment)
     {
         if (equipment[index]) Destroy(equipment[index].gameObject);
-        equipment[index] = Instantiate(newEquipment, transform);
+        equipment[index] = Instantiate(newEquipment, equipmentHolder);
         CheckSynergies();
     }
 

@@ -10,26 +10,23 @@ public class GrapplingGun : MonoBehaviour
     public Transform gunTip, camera, player;
     private float maxDistance = 100f;
     private SpringJoint joint;
-    private PlayerControls playerControls;
+
 
 
     void Awake()
     {
         lr = GetComponent<LineRenderer>();
-        playerControls = new PlayerControls();
-    }
-
-    private void OnEnable()
-    {
-        playerControls.MainActionMap.Enable();// врубаем и вырубаем управление на активации/деактивации скрипта
-        playerControls.MainActionMap.Hook.started += context => StartGrapple();//биндим функции на нажатие и отжатие клавиши 
-        playerControls.MainActionMap.Hook.canceled += context => StopGrapple();
 
     }
-    private void OnDisable()
+
+    private void Start()
     {
-        playerControls.MainActionMap.Disable();// врубаем и вырубаем управление на активации/деактивации скрипта
+
+        InputHolder.GetAction(TypeInputAction.Hook).started += context => StartGrapple();//биндим функции на нажатие и отжатие клавиши 
+        InputHolder.GetAction(TypeInputAction.Hook).canceled += context => StopGrapple();
+
     }
+   
 
     void Update()
     {

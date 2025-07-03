@@ -21,7 +21,6 @@ public class Movement : MonoBehaviour
     private bool jumpCooldown;
 
     private Vector2 inputDirection = Vector2.zero;
-    private PlayerControls playerControls;
     private bool isRunning = false;
     private bool jumpPressed = false;
 
@@ -34,12 +33,12 @@ public class Movement : MonoBehaviour
         gc = GetComponentInChildren<GroundCheck>();
         body = GameObject.FindWithTag("Body");
         forwardPoint = GameObject.FindWithTag("Forward");
-        playerControls = InputHolder.GetControls(); ;
+
         playerInput = GetComponent<PlayerInput>();
         InputHolder.SetupInput(playerInput);
 
     }
-    private void OnEnable()
+    private void Start()
     {
        
 
@@ -47,21 +46,17 @@ public class Movement : MonoBehaviour
 
         
         //биндим булеан на ивент нажания и удержание кнопки спринта в управлении
-        InputHolder.GetAction(InputActionType.Sprint).started += context => isRunning = true; //нажали
-        InputHolder.GetAction(InputActionType.Sprint).performed += context => isRunning = true; //держим
-        InputHolder.GetAction(InputActionType.Sprint).canceled += context => isRunning = false; //отпустили
+        InputHolder.GetAction(TypeInputAction.Sprint).started += context => isRunning = true; //нажали
+        InputHolder.GetAction(TypeInputAction.Sprint).performed += context => isRunning = true; //держим
+        InputHolder.GetAction(TypeInputAction.Sprint).canceled += context => isRunning = false; //отпустили
 
         
     }
-    private void OnDisable()
-    {
-        playerControls.MainActionMap.Disable();// врубаем и вырубаем управление на активации/деактивации скрипта
-    }
-  
+
 
     private void Update()
     {
-        inputDirection = InputHolder.GetAction(InputActionType.Movement).ReadValue<Vector2>();
+        inputDirection = InputHolder.GetAction(TypeInputAction.Movement).ReadValue<Vector2>();
         float x = inputDirection.x;
         float z = inputDirection.y;
         
@@ -100,7 +95,7 @@ public class Movement : MonoBehaviour
             );
         }
 
-        if (InputHolder.GetAction(InputActionType.Jump).triggered && gc.onGround && !jumpCooldown)
+        if (InputHolder.GetAction(TypeInputAction.Jump).triggered && gc.onGround && !jumpCooldown)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);

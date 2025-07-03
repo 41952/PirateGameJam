@@ -28,8 +28,13 @@ public class AutoRifle : WeaponBase
 
     public override void Fire()
     {
+
         if (Time.time < lastFireTime + 1f / fireRate || isReloading || currentAmmo <= 0)
+        {
+
             return;
+        }
+            
 
         currentAmmo--;
         lastFireTime = Time.time;

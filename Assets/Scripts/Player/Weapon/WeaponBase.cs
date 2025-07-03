@@ -25,29 +25,27 @@ public abstract class WeaponBase : MonoBehaviour
     protected float lastMeleeTime;
 
     protected List<SynergyBase> synergies = new();
-    private PlayerControls playerControls;
+   
+    private bool isAttacking = false;
 
-    private void Awake()
+ 
+    private void Start()
     {
-        playerControls = new PlayerControls();
-    }
-    private void OnEnable()
-    {
-        playerControls.MainActionMap.Enable();// врубаем и вырубаем управление на активации/деактивации скрипта
+
         //биндим выстрелы на нажатие и удержание клавиш стрельбы и альт стрельбы
-        playerControls.MainActionMap.Shoot.started += context => Fire();
-        playerControls.MainActionMap.Shoot.performed += context => Fire();
-        playerControls.MainActionMap.AltShoot.started += context => AltFire();
-        playerControls.MainActionMap.AltShoot.performed += context => AltFire();
+        InputHolder.GetAction(TypeInputAction.Shoot).started += context => isAttacking = true;
+        InputHolder.GetAction(TypeInputAction.Shoot).performed += context => isAttacking = true;
+        InputHolder.GetAction(TypeInputAction.Shoot).canceled += context => isAttacking = false;
 
+        InputHolder.GetAction(TypeInputAction.AltShoot).started += context => Aim();
+        InputHolder.GetAction(TypeInputAction.Ultimate).started += context => AltFire();
+        InputHolder.GetAction(TypeInputAction.CloseCombat).started += context => TryMelee();
+        
+        
 
 
     }
-    private void OnDisable()
-    {
-        playerControls.MainActionMap.Disable();// врубаем и вырубаем управление на активации/деактивации скрипта
-    }
-
+  
     public virtual void Update()
     {
         if (isReloading)
@@ -61,24 +59,25 @@ public abstract class WeaponBase : MonoBehaviour
             }
             return;
         }
+        if(isAttacking)
+        {
+            Fire();
+        }
+
+        //if (Input.GetMouseButtonDown(1))
+        //    AltFire();
 
         //if (Input.GetMouseButton(0))
         //    Fire();
 
-        if (Input.GetMouseButtonDown(1))
-            AltFire();
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //    AltFire();
 
-        if (Input.GetMouseButton(0))
-            Fire();
+        //if (Input.GetKeyDown(KeyCode.F))
+        //    TryMelee();
 
-        if (Input.GetKeyDown(KeyCode.Q))
-            AltFire();
-
-        if (Input.GetKeyDown(KeyCode.F))
-            TryMelee();
-
-        if (Input.GetMouseButtonDown(1))
-            Aim(); // Заглушка
+        //if (Input.GetMouseButtonDown(1))
+        //    Aim(); // Заглушка
     }
 
     public virtual void Fire()

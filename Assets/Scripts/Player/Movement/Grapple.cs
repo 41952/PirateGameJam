@@ -11,12 +11,22 @@ public class GrapplingGun : MonoBehaviour
     private float maxDistance = 100f;
     private SpringJoint joint;
 
-    
+
 
     void Awake()
     {
         lr = GetComponent<LineRenderer>();
+
     }
+
+    private void Start()
+    {
+
+        InputHolder.GetAction(TypeInputAction.Hook).started += context => StartGrapple();//биндим функции на нажатие и отжатие клавиши 
+        InputHolder.GetAction(TypeInputAction.Hook).canceled += context => StopGrapple();
+
+    }
+   
 
     void Update()
     {
@@ -26,15 +36,15 @@ public class GrapplingGun : MonoBehaviour
             joint.maxDistance = Mathf.Max(joint.minDistance + 1f, joint.maxDistance - reelSpeed * Time.deltaTime);
         }
 
-        if (Input.GetMouseButtonDown(2))
-        {
-            StartGrapple();
-        }
-        else if (Input.GetMouseButtonUp(2))
-        {
-            StopGrapple();
-        }
-        
+        //if (Input.GetMouseButtonDown(2))// 
+        //{
+        //    StartGrapple();
+        //}
+        //else if (Input.GetMouseButtonUp(2))
+        //{
+        //    StopGrapple();
+        //}
+
     }
 
     void LateUpdate()

@@ -25,8 +25,27 @@ public abstract class WeaponBase : MonoBehaviour
     protected float lastMeleeTime;
 
     protected List<SynergyBase> synergies = new();
+   
+    private bool isAttacking = false;
+
+ 
+    private void Start()
+    {
+
+        //биндим выстрелы на нажатие и удержание клавиш стрельбы и альт стрельбы
+        InputHolder.GetAction(TypeInputAction.Shoot).started += context => isAttacking = true;
+        InputHolder.GetAction(TypeInputAction.Shoot).performed += context => isAttacking = true;
+        InputHolder.GetAction(TypeInputAction.Shoot).canceled += context => isAttacking = false;
+
+        InputHolder.GetAction(TypeInputAction.AltShoot).started += context => Aim();
+        InputHolder.GetAction(TypeInputAction.Ultimate).started += context => AltFire();
+        InputHolder.GetAction(TypeInputAction.CloseCombat).started += context => TryMelee();
+        
+        
 
 
+    }
+  
     public virtual void Update()
     {
         if (isReloading)
@@ -40,24 +59,25 @@ public abstract class WeaponBase : MonoBehaviour
             }
             return;
         }
-
-        if (Input.GetMouseButton(0))
+        if(isAttacking)
+        {
             Fire();
+        }
 
-        if (Input.GetMouseButtonDown(1))
-            AltFire();
+        //if (Input.GetMouseButtonDown(1))
+        //    AltFire();
 
-        if (Input.GetMouseButton(0))
-            Fire();
+        //if (Input.GetMouseButton(0))
+        //    Fire();
 
-        if (Input.GetKeyDown(KeyCode.Q))
-            AltFire();
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //    AltFire();
 
-        if (Input.GetKeyDown(KeyCode.F))
-            TryMelee();
+        //if (Input.GetKeyDown(KeyCode.F))
+        //    TryMelee();
 
-        if (Input.GetMouseButtonDown(1))
-            Aim(); // Заглушка
+        //if (Input.GetMouseButtonDown(1))
+        //    Aim(); // Заглушка
     }
 
     public virtual void Fire()

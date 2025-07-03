@@ -81,9 +81,12 @@ public class InventoryManager : MonoBehaviour
 
                 var match = synergyTable.FirstOrDefault(s =>
                     s.weaponName == weapon.weaponName && s.equipmentName == eq.equipmentName);
-
+                    
                 if (match != null)
                 {
+                    string pairKey = weapon.weaponName + "+" + eq.equipmentName;
+
+                    // Проверка по ключу
                     if (!weapon.synergies.Any(s => s.GetType() == match.synergyPrefab.GetType()))
                     {
                         var synergy = Instantiate(match.synergyPrefab, weapon.transform);
@@ -91,6 +94,7 @@ public class InventoryManager : MonoBehaviour
                         Debug.Log($"added synergy {match.synergyPrefab.name} for {weapon.weaponName} + {eq.equipmentName}");
                     }
                 }
+
             }
         }
     }

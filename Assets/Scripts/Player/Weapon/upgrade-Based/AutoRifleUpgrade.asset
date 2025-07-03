@@ -14,43 +14,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels: []
   weaponLevels:
-  - damage: 10
+  - damage: 15
     fireRate: 5
     magazineSize: 20
     reloadTime: 1
     projectileSpeed: 200
     projectileSpread: 1.2
-  - damage: 12
+  - damage: 17
     fireRate: 6
     magazineSize: 20
     reloadTime: 1
     projectileSpeed: 250
     projectileSpread: 1.1
-  - damage: 13
+  - damage: 19
     fireRate: 7
     magazineSize: 20
     reloadTime: 1
     projectileSpeed: 300
     projectileSpread: 1
-  - damage: 14
+  - damage: 21
     fireRate: 8
     magazineSize: 20
     reloadTime: 1
     projectileSpeed: 350
     projectileSpread: 0.9
-  - damage: 15
+  - damage: 24
     fireRate: 9
     magazineSize: 20
     reloadTime: 1
     projectileSpeed: 400
     projectileSpread: 0.75
-  - damage: 16
+  - damage: 28
     fireRate: 10
     magazineSize: 20
     reloadTime: 1
     projectileSpeed: 500
     projectileSpread: 0.5
-  - damage: 20
+  - damage: 30
     fireRate: 15
     magazineSize: 20
     reloadTime: 1

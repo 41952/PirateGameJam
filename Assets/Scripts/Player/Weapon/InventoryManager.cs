@@ -7,6 +7,9 @@ public class InventoryManager : MonoBehaviour
     public WeaponBase[] weapons = new WeaponBase[2];
     public EquipmentItem[] equipment = new EquipmentItem[2];
 
+    [Header("Available Weapons")]
+    public List<WeaponBase> availableWeapons; // Задаётся в инспекторе
+
     [Header("Holders")]
     [SerializeField] private Transform weaponHolder;
     [SerializeField] private Transform equipmentHolder;
@@ -31,6 +34,23 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    private void Start()
+    {
+        AssignRandomWeaponToSlot(1); // Например, в слот 1
+    }
+
+    public void AssignRandomWeaponToSlot(int index)
+    {
+        if (availableWeapons == null || availableWeapons.Count == 0)
+        {
+            Debug.LogWarning("Нет доступных оружий для выбора!");
+            return;
+        }
+
+        var randomWeapon = availableWeapons[Random.Range(0, availableWeapons.Count)];
+        ReplaceWeapon(index, randomWeapon);
     }
 
     public void ReplaceWeapon(int index, WeaponBase newWeapon)
@@ -62,13 +82,17 @@ public class InventoryManager : MonoBehaviour
                 var match = synergyTable.FirstOrDefault(s =>
                     s.weaponName == weapon.weaponName && s.equipmentName == eq.equipmentName);
 
-                if (match != null && !weapon.GetComponent(match.synergyPrefab.GetType()))
+                if (match != null)
                 {
-                    var synergy = Instantiate(match.synergyPrefab, weapon.transform);
-                    weapon.AddSynergy(synergy);
-                    Debug.Log($"added synergy {match.synergyPrefab.name} for {weapon.weaponName} + {eq.equipmentName}");
+                    if (!weapon.synergies.Any(s => s.GetType() == match.synergyPrefab.GetType()))
+                    {
+                        var synergy = Instantiate(match.synergyPrefab, weapon.transform);
+                        weapon.AddSynergy(synergy, eq.equipmentName);
+                        Debug.Log($"added synergy {match.synergyPrefab.name} for {weapon.weaponName} + {eq.equipmentName}");
+                    }
                 }
             }
         }
     }
 }
+

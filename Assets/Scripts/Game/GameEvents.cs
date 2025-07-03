@@ -54,5 +54,11 @@ public static class GameEvents
     {
         OnWeaponSwitched?.Invoke(newIndex, weapon);
     }
+    public static Action<bool> OnUltimateStateChanged;
+
+    public static void RaiseUltimateStateChanged(bool active)
+    {
+        OnUltimateStateChanged?.Invoke(active);
+    }
 
 }

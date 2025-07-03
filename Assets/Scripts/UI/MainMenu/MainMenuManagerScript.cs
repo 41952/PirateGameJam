@@ -1,9 +1,24 @@
-using System;
+
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+
 
 public class MainMenuManagerScript : MonoBehaviour
 {
+   
+    public static MainMenuManagerScript Instance;
+
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+        
+    }
     public void LoadScene(string SceneName)
     {
         SceneManager.LoadScene(SceneName);
@@ -12,6 +27,7 @@ public class MainMenuManagerScript : MonoBehaviour
     {
 
     }
+  
     public void ExitGame()
     {
         Application.Quit();

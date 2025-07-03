@@ -64,7 +64,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Scope"",
+                    ""name"": ""AltShoot"",
                     ""type"": ""Button"",
                     ""id"": ""d3837786-1811-46a7-88dd-d3c981e2b042"",
                     ""expectedControlType"": """",
@@ -232,7 +232,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Scope"",
+                    ""action"": ""AltShoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -341,7 +341,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_MainActionMap_Sprint = m_MainActionMap.FindAction("Sprint", throwIfNotFound: true);
         m_MainActionMap_Jump = m_MainActionMap.FindAction("Jump", throwIfNotFound: true);
         m_MainActionMap_Shoot = m_MainActionMap.FindAction("Shoot", throwIfNotFound: true);
-        m_MainActionMap_Scope = m_MainActionMap.FindAction("Scope", throwIfNotFound: true);
+        m_MainActionMap_AltShoot = m_MainActionMap.FindAction("AltShoot", throwIfNotFound: true);
         m_MainActionMap_Weapon1 = m_MainActionMap.FindAction("Weapon1", throwIfNotFound: true);
         m_MainActionMap_Weapon2 = m_MainActionMap.FindAction("Weapon2", throwIfNotFound: true);
         m_MainActionMap_WeaponSwitch = m_MainActionMap.FindAction("WeaponSwitch", throwIfNotFound: true);
@@ -419,7 +419,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainActionMap_Sprint;
     private readonly InputAction m_MainActionMap_Jump;
     private readonly InputAction m_MainActionMap_Shoot;
-    private readonly InputAction m_MainActionMap_Scope;
+    private readonly InputAction m_MainActionMap_AltShoot;
     private readonly InputAction m_MainActionMap_Weapon1;
     private readonly InputAction m_MainActionMap_Weapon2;
     private readonly InputAction m_MainActionMap_WeaponSwitch;
@@ -435,7 +435,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_MainActionMap_Sprint;
         public InputAction @Jump => m_Wrapper.m_MainActionMap_Jump;
         public InputAction @Shoot => m_Wrapper.m_MainActionMap_Shoot;
-        public InputAction @Scope => m_Wrapper.m_MainActionMap_Scope;
+        public InputAction @AltShoot => m_Wrapper.m_MainActionMap_AltShoot;
         public InputAction @Weapon1 => m_Wrapper.m_MainActionMap_Weapon1;
         public InputAction @Weapon2 => m_Wrapper.m_MainActionMap_Weapon2;
         public InputAction @WeaponSwitch => m_Wrapper.m_MainActionMap_WeaponSwitch;
@@ -464,9 +464,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
-            @Scope.started += instance.OnScope;
-            @Scope.performed += instance.OnScope;
-            @Scope.canceled += instance.OnScope;
+            @AltShoot.started += instance.OnAltShoot;
+            @AltShoot.performed += instance.OnAltShoot;
+            @AltShoot.canceled += instance.OnAltShoot;
             @Weapon1.started += instance.OnWeapon1;
             @Weapon1.performed += instance.OnWeapon1;
             @Weapon1.canceled += instance.OnWeapon1;
@@ -504,9 +504,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
-            @Scope.started -= instance.OnScope;
-            @Scope.performed -= instance.OnScope;
-            @Scope.canceled -= instance.OnScope;
+            @AltShoot.started -= instance.OnAltShoot;
+            @AltShoot.performed -= instance.OnAltShoot;
+            @AltShoot.canceled -= instance.OnAltShoot;
             @Weapon1.started -= instance.OnWeapon1;
             @Weapon1.performed -= instance.OnWeapon1;
             @Weapon1.canceled -= instance.OnWeapon1;
@@ -560,7 +560,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
-        void OnScope(InputAction.CallbackContext context);
+        void OnAltShoot(InputAction.CallbackContext context);
         void OnWeapon1(InputAction.CallbackContext context);
         void OnWeapon2(InputAction.CallbackContext context);
         void OnWeaponSwitch(InputAction.CallbackContext context);

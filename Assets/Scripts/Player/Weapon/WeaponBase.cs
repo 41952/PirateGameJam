@@ -20,7 +20,28 @@ public abstract class WeaponBase : MonoBehaviour
     [HideInInspector] public bool isReloading = false;
 
     protected List<SynergyBase> synergies = new();
+    private PlayerControls playerControls;
 
+    private void Awake()
+    {
+        playerControls = new PlayerControls();
+    }
+    private void OnEnable()
+    {
+        playerControls.MainActionMap.Enable();// врубаем и вырубаем управление на активации/деактивации скрипта
+        //биндим выстрелы на нажатие и удержание клавиш стрельбы и альт стрельбы
+        playerControls.MainActionMap.Shoot.started += context => Fire();
+        playerControls.MainActionMap.Shoot.performed += context => Fire();
+        playerControls.MainActionMap.AltShoot.started += context => AltFire();
+        playerControls.MainActionMap.AltShoot.performed += context => AltFire();
+
+
+
+    }
+    private void OnDisable()
+    {
+        playerControls.MainActionMap.Disable();// врубаем и вырубаем управление на активации/деактивации скрипта
+    }
 
     public virtual void Update()
     {
@@ -36,11 +57,11 @@ public abstract class WeaponBase : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButton(0))
-            Fire();
+        //if (Input.GetMouseButton(0))
+        //    Fire();
 
-        if (Input.GetMouseButtonDown(1))
-            AltFire();
+        //if (Input.GetMouseButtonDown(1))
+        //    AltFire();
     }
 
     public virtual void Fire()

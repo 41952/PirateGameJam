@@ -1,4 +1,4 @@
-public static class GameInput 
+public  class GameInput 
 { 
 
 }

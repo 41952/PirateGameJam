@@ -26,7 +26,6 @@ public class EnemyExperienceDealer : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Subscribed to GameEvents");
         GameEvents.OnEnemyDamaged += HandleEnemyDamaged;
         GameEvents.OnEnemyDeath += HandleEnemyDeath;
     }

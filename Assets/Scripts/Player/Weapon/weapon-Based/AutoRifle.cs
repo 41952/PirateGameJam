@@ -4,21 +4,26 @@ using UnityEngine;
 public class AutoRifle : WeaponBase
 {
     [Header("HitScan Settings")]
-    public Transform firePoint; // точка, откуда идёт выстрел
-    public float fireRange = 100f;
-    public float projectileSpeed;
+    private Transform firePoint; // точка, откуда идёт выстрел
+    [SerializeField] private GameObject projectilePrefab;
+    public float projectileSpeed = 30f;
+    public float projectileSpread = 1.2f; // множитель разброса (по оси X и Y)
+
+
+    [Header("Melee Settings")]
+    public float meleeRange = 3f;
+    public float meleeAngle = 60f; // угол конуса
+
+    private void Awake()
+    {
+        if (firePoint == null && Camera.main != null)
+            firePoint = Camera.main.transform;
+    }
 
     [ContextMenu("LevelUP!~")]
-    public virtual void AddLevel()
+    public override void AddLevel()
     {
-        level++; // <- пусть здесь будет
-        InventoryManager.Instance.CheckSynergies();
-        Debug.Log($"{weaponName} level up to {level}");
-
-        GetComponent<WeaponLevelApplier>()?.ApplyLevel();
-
-        foreach (var s in synergies)
-            s.OnLevelUp();
+        base.AddLevel();
     }
 
     public override void Fire()
@@ -29,22 +34,12 @@ public class AutoRifle : WeaponBase
         currentAmmo--;
         lastFireTime = Time.time;
 
-        Debug.Log($"{weaponName} shoot!~ Current Ammo: {currentAmmo}");
+        Vector3 direction = GetSpreadDirection(firePoint.forward, projectileSpread);
 
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, fireRange))
+        GameObject bulletGO = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(direction));
+        if (bulletGO.TryGetComponent(out ProjectileBullet bullet))
         {
-            Debug.DrawLine(firePoint.position, hit.point, Color.red, 1f);
-
-            HitZone zone = HitZone.Body;
-
-
-            if (hit.collider.TryGetComponent(out IDamageReceiver receiver))
-            {
-                
-                DamageData data = new DamageData(baseDamage * baseDamageMultiplier, 1f, DamageType.Bullet, zone);
-                receiver.TakeDamage(data);
-                Debug.Log($"Hit {hit.collider.name} for {baseDamage * baseDamageMultiplier} ({zone})");
-            }
+            bullet.Initialize(projectileSpeed, baseDamage * baseDamageMultiplier, direction);
         }
 
         foreach (var s in synergies)
@@ -52,5 +47,39 @@ public class AutoRifle : WeaponBase
 
         if (currentAmmo <= 0)
             Reload();
+    }
+
+    private Vector3 GetSpreadDirection(Vector3 forward, float spread)
+    {
+        float x = Random.Range(-spread, spread);
+        float y = Random.Range(-spread, spread);
+
+        Vector3 spreadDir = Quaternion.Euler(y, x, 0) * forward;
+        return spreadDir.normalized;
+    }
+    
+    public override void MeleeAttack()
+    {
+
+        Collider[] hits = Physics.OverlapSphere(firePoint.position, meleeRange);
+        int targetsHit = 0;
+
+        foreach (var hit in hits)
+        {
+            Vector3 dirToTarget = (hit.transform.position - firePoint.position).normalized;
+            float angle = Vector3.Angle(firePoint.forward, dirToTarget);
+
+            if (angle <= meleeAngle / 2)
+            {
+                if (hit.TryGetComponent(out IDamageReceiver receiver))
+                {
+                    DamageData data = new DamageData(meleeDamage, 1f, DamageType.Melee, HitZone.Body);
+                    receiver.TakeDamage(data);
+                    Debug.Log($"Melee hit {hit.name} for {meleeDamage}");
+                    targetsHit++;
+                }
+            }
+        }
+
     }
 }

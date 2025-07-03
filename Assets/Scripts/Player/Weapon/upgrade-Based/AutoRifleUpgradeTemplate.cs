@@ -18,19 +18,20 @@ public class AutoRifleUpgradeTemplate : WeaponUpgradeTemplate
     public class AutoRifleLevelData : UpgradeLevelData
     {
         public float projectileSpeed;
+        public float projectileSpread;
 
         public override void ApplyTo(WeaponBase weapon)
         {
             base.ApplyTo(weapon);
             if (weapon is AutoRifle f)
             {
-
+                f.projectileSpread = projectileSpread;
                 f.projectileSpeed = projectileSpeed;
             }
         }
         public override string GetUpgradeDescription()
         {
-            return base.GetUpgradeDescription() + $", \n Скорость проджектайла: {projectileSpeed}";
+            return base.GetUpgradeDescription() + $", \n Скорость проджектайла: {projectileSpeed}, \n Разброс: {projectileSpread}";
         }
     }
 

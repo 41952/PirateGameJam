@@ -52,5 +52,8 @@ public class RewardMenuUI : MonoBehaviour
         rewardPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        GameEvents.RaiseUpgradeMenuClosed(); // <-- добавлено
+
     }
+
 }

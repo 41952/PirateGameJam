@@ -1,56 +1,78 @@
 using UnityEngine;
 
-
 public class Sword : WeaponBase
 {
-    [Header("HitScan Settings")]
-    public Transform firePoint; // точка, откуда идёт выстрел
-    public float fireRange = 100f;
-    public float projectileSpeed;
+    [Header("Melee Settings")]
+    public Transform firePoint;
+    public float attackRange = 3f;
+    public float attackAngle = 60f;
 
-    [ContextMenu("LevelUP!~")]
-    public virtual void AddLevel()
+    private void Awake()
     {
-        level++; // <- пусть здесь будет
-        InventoryManager.Instance.CheckSynergies();
-        Debug.Log($"{weaponName} level up to {level}");
-
-        GetComponent<WeaponLevelApplier>()?.ApplyLevel();
-
-        foreach (var s in synergies)
-            s.OnLevelUp();
+        if (firePoint == null && Camera.main != null)
+            firePoint = Camera.main.transform;
     }
 
     public override void Fire()
     {
-        if (Time.time < lastFireTime + 1f / fireRate || isReloading || currentAmmo <= 0)
+        if (Time.time < lastFireTime + 1f / fireRate || isReloading)
             return;
 
-        currentAmmo--;
         lastFireTime = Time.time;
 
-        Debug.Log($"{weaponName} shoot!~ Current Ammo: {currentAmmo}");
+        Debug.Log($"{weaponName} sword swing!");
 
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, fireRange))
+        Collider[] hits = Physics.OverlapSphere(firePoint.position, attackRange);
+        int targetsHit = 0;
+
+        foreach (var hit in hits)
         {
-            Debug.DrawLine(firePoint.position, hit.point, Color.red, 1f);
+            Vector3 dirToTarget = (hit.transform.position - firePoint.position).normalized;
+            float angle = Vector3.Angle(firePoint.forward, dirToTarget);
 
-            HitZone zone = HitZone.Body;
-
-
-            if (hit.collider.TryGetComponent(out IDamageReceiver receiver))
+            if (angle <= attackAngle / 2)
             {
-                
-                DamageData data = new DamageData(baseDamage * baseDamageMultiplier, 1f, DamageType.Bullet, zone);
-                receiver.TakeDamage(data);
-                Debug.Log($"Hit {hit.collider.name} for {baseDamage * baseDamageMultiplier} ({zone})");
+                if (hit.TryGetComponent(out IDamageReceiver receiver))
+                {
+                    DamageData data = new DamageData(baseDamage * baseDamageMultiplier, 1f, DamageType.Melee, HitZone.Body);
+                    receiver.TakeDamage(data);
+                    Debug.Log($"Sword hit {hit.name} for {data.baseDamage}");
+                    targetsHit++;
+                }
             }
         }
 
         foreach (var s in synergies)
             s.OnFire();
+    }
 
-        if (currentAmmo <= 0)
-            Reload();
+    [ContextMenu("LevelUP!~")]
+    public override void AddLevel()
+    {
+        base.AddLevel();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (firePoint == null) return;
+
+        Gizmos.color = Color.red;
+        Vector3 origin = firePoint.position;
+        Vector3 forward = firePoint.forward;
+
+        // Нарисуем сектор (визуализация конуса)
+        int steps = 20;
+        float angleStep = attackAngle / steps;
+
+        for (int i = 0; i <= steps; i++)
+        {
+            float angle = -attackAngle / 2 + angleStep * i;
+            Quaternion rot = Quaternion.AngleAxis(angle, firePoint.up);
+            Vector3 dir = rot * forward;
+            Gizmos.DrawRay(origin, dir * attackRange);
+        }
+
+        Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
+        Gizmos.DrawWireSphere(origin, attackRange);
     }
 }

@@ -15,7 +15,6 @@ public static class GameEvents
 
     public static void RaiseEnemyDeath(EnemyHealth target)
     {
-        Debug.Log("death event");
         OnEnemyDeath?.Invoke(target);
     }
     // статы
@@ -39,4 +38,21 @@ public static class GameEvents
     {
         OnPlayerLevelUp?.Invoke(playerXP, newLevel);
     }
+
+    // апргейт менюшки
+    public static event Action OnUpgradeMenuClosed;
+
+    public static void RaiseUpgradeMenuClosed()
+    {
+        OnUpgradeMenuClosed?.Invoke();
+    }
+
+    // смена оружия
+    public static event Action<int, WeaponBase> OnWeaponSwitched;
+
+    public static void RaiseWeaponSwitched(int newIndex, WeaponBase weapon)
+    {
+        OnWeaponSwitched?.Invoke(newIndex, weapon);
+    }
+
 }

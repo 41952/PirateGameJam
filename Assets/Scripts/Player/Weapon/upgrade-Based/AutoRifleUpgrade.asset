@@ -12,27 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8db8067d63c7e24a92f118256ecd708, type: 3}
   m_Name: AutoRifleUpgrade
   m_EditorClassIdentifier: 
-  levels:
-  - damage: 5
-    damageMultiplier: 0
-    fireRate: 10
-    magazineSize: 20
-    reloadTime: 1
-  - damage: 10
-    damageMultiplier: 0
-    fireRate: 15
-    magazineSize: 20
-    reloadTime: 2
+  levels: []
   weaponLevels:
-  - damage: 5
-    damageMultiplier: 0
+  - damage: 10
+    fireRate: 5
+    magazineSize: 20
+    reloadTime: 1
+    projectileSpeed: 200
+    projectileSpread: 1.2
+  - damage: 12
+    fireRate: 6
+    magazineSize: 20
+    reloadTime: 1
+    projectileSpeed: 250
+    projectileSpread: 1.1
+  - damage: 13
+    fireRate: 7
+    magazineSize: 20
+    reloadTime: 1
+    projectileSpeed: 300
+    projectileSpread: 1
+  - damage: 14
+    fireRate: 8
+    magazineSize: 20
+    reloadTime: 1
+    projectileSpeed: 350
+    projectileSpread: 0.9
+  - damage: 15
+    fireRate: 9
+    magazineSize: 20
+    reloadTime: 1
+    projectileSpeed: 400
+    projectileSpread: 0.75
+  - damage: 16
     fireRate: 10
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 1
-  - damage: 10
-    damageMultiplier: 0
+    projectileSpeed: 500
+    projectileSpread: 0.5
+  - damage: 20
     fireRate: 15
     magazineSize: 20
-    reloadTime: 2
-    projectileSpeed: 5
+    reloadTime: 1
+    projectileSpeed: 500
+    projectileSpread: 0

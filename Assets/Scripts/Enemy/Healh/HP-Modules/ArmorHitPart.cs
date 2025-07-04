@@ -11,8 +11,11 @@ public class ArmorHitPart : HitPartBase
         if (armorHP > 0)
         {
             armorHP -= damageToArmor;
-            float passThrough = data.baseDamage * damageThroughPercent* data.armorPenetration;
-            enemyHealth.ReceiveDamage(passThrough, data);
+            float passThrough = data.baseDamage * damageThroughPercent;
+            if(data.armorPenetration == -1f)
+                enemyHealth.ReceiveDamage(data.baseDamage, data);
+            else
+                enemyHealth.ReceiveDamage(passThrough, data);
         }
         else
         {

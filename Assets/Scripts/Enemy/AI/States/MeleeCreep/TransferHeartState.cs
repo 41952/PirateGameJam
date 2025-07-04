@@ -32,6 +32,7 @@ public class TransferHeartState : State
         if (enemyHeart == null)
             enemyHeart = owner.GetComponent<EnemyGraphics>();
         enemyHeart?.ActivateHeart();
+        enemyHeart?.ActivateHeartOutline();
 
         owner.StartCoroutine(TransferRoutine());
     }
@@ -45,10 +46,35 @@ public class TransferHeartState : State
             timer += Time.deltaTime; yield return null;
         }
         // resume allies
-        foreach(var ai in stoppedAllies)
-        {
-            if(ai != null) ai.agent.isStopped = false;
+        foreach (var ai in stoppedAllies) {
+            if (ai == null) continue;
+            var em = ai.GetComponent<EffectManager>();
+            if (em == null) em = ai.gameObject.AddComponent<EffectManager>();
+
+            float duration = 20f;
+            float mult = 2f;
+            int choice = Random.Range(0, 4);
+            IEffect effect = null;
+
+            switch (choice) {
+                case 0:
+                    effect = new SpeedBuffEffect(ai, duration, mult);
+                    break;
+                case 1:
+                    effect = new DamageBuffEffect(ai, duration, mult);
+                    break;
+                case 2:
+                    effect = new ReloadBuffEffect(ai, duration, mult);
+                    break;
+                case 3:
+                    effect = new HealthBuffEffect(ai, duration, mult);
+                    break;
+            }
+
+            if (effect != null)
+                em.AddEffect(effect);
         }
+
         // self die
         owner.health.Die(); 
         stateMachine.ChangeState(new DeadState(owner, stateMachine));

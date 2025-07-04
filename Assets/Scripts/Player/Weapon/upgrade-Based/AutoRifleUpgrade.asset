@@ -18,46 +18,41 @@ MonoBehaviour:
     fireRate: 5
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 200
+    projectileSpeed: 60
     projectileSpread: 1.2
-  - damage: 17
   - damage: 13
     fireRate: 6
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 250
+    projectileSpeed: 65
     projectileSpread: 1.1
-  - damage: 19
   - damage: 15
     fireRate: 7
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 300
+    projectileSpeed: 70
     projectileSpread: 1
-  - damage: 21
   - damage: 18
     fireRate: 8
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 350
+    projectileSpeed: 75
     projectileSpread: 0.9
-  - damage: 24
   - damage: 20
     fireRate: 9
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 400
+    projectileSpeed: 85
     projectileSpread: 0.75
-  - damage: 28
   - damage: 25
     fireRate: 10
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 500
+    projectileSpeed: 90
     projectileSpread: 0.5
   - damage: 30
     fireRate: 15
     magazineSize: 20
     reloadTime: 1
-    projectileSpeed: 500
+    projectileSpeed: 100
     projectileSpread: 0

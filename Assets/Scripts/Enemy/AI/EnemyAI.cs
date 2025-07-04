@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
 
-[RequireComponent(typeof(Collider), typeof(UnityEngine.AI.NavMeshAgent))]
+[RequireComponent(typeof(Collider), typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
     [Header("Detection Settings")]
@@ -33,15 +33,15 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public Transform player;
     private float lastDetectedTime = Mathf.NegativeInfinity;
 
-    [HideInInspector] public UnityEngine.AI.NavMeshAgent agent;
-    private StateMachine stateMachine;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public StateMachine stateMachine;
 
     [HideInInspector] public EnemyHealth health;
     
 
     void Awake()
     {
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;              // Manual rotation for instant turn
         agent.stoppingDistance = attackRadius;
         stateMachine = new StateMachine();
@@ -58,7 +58,7 @@ public class EnemyAI : MonoBehaviour
         GameEvents.OnEnemyDamaged -= OnAnyEnemyDamaged;
     }
 
-    void Start()
+    protected virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         if (navSurface != null) navSurface.BuildNavMesh();
@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
 
     public bool PlayerInMemory => Time.time - lastDetectedTime <= memoryDuration;
 
-    void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         if(!drawGizmos) return;
         Gizmos.color=Color.yellow; Gizmos.DrawWireSphere(transform.position, sightRadius);

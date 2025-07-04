@@ -38,6 +38,7 @@ public class PlayerHealthSystem : MonoBehaviour
         if (source != _stats || type != StatType.Health) return;
 
         _currentHealth = newValue;
+        GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
     }
 
     public void SetCurrentHealthToMax()
@@ -63,12 +64,14 @@ public class PlayerHealthSystem : MonoBehaviour
         if (invulnerable) return;
         _currentHealth -= amount;
         _currentHealth = Mathf.Max(_currentHealth, 0f);
+        GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
     }
 
     public void Heal(float amount)
     {
         _currentHealth= Mathf.Min(_healthStat.FinalValue, _currentHealth + amount);
         Debug.Log($"Player healed for {amount}, current HP: {_currentHealth}");
+        GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
     }
 
     public void SetInvulnerable(bool value) => invulnerable = value;

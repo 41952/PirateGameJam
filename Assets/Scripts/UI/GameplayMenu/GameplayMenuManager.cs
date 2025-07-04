@@ -6,7 +6,7 @@ public class GameplayMenuManager : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField]
-    private GameObject healthPanel;
+    private RectTransform healthPanel;
     [SerializeField]
     private Image healthFillImage;
     [SerializeField]
@@ -25,6 +25,6 @@ public class GameplayMenuManager : MonoBehaviour
     private void OnHealthChanged(float currentHealth,float maxHealth)
     {
         healthText.text = $"{currentHealth}/{maxHealth}";
-
+        healthPanel.sizeDelta = new Vector2 (healthPanel.sizeDelta.x + maxHealth * healthPanelScaleModifier, healthPanel.sizeDelta.y);
     }
 }

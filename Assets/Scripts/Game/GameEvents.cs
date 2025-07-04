@@ -54,5 +54,11 @@ public static class GameEvents
     {
         OnWeaponSwitched?.Invoke(newIndex, weapon);
     }
+    // хп
+    public static event Action<float,float> OnPlayerHealthChanged;
 
+    public static void RaisePlayerHealthChanged(float currentHealth,float maxHealth)
+    {
+        OnPlayerHealthChanged?.Invoke(currentHealth,maxHealth);
+    }
 }

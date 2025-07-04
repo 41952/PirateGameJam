@@ -51,6 +51,7 @@ public class PlayerHealthSystem : MonoBehaviour
         {
             _currentHealth += _regenStat.FinalValue * Time.deltaTime;
             _currentHealth = Mathf.Min(_currentHealth, _healthStat.FinalValue);
+            GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
         }
         if (_currentHealth <= 1f)
             Die();

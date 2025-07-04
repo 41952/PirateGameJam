@@ -24,7 +24,8 @@ public abstract class WeaponBase : MonoBehaviour
     public float meleeDamage = 25f;
     protected float lastMeleeTime;
 
-    protected List<SynergyBase> synergies = new();
+    [HideInInspector] public List<SynergyBase> synergies = new();
+    private HashSet<string> synergyPairs = new(); // weaponName+equipmentName
    
     private bool isAttacking = false;
 
@@ -40,8 +41,6 @@ public abstract class WeaponBase : MonoBehaviour
         InputHolder.GetAction(TypeInputAction.AltShoot).started += context => Aim();
         InputHolder.GetAction(TypeInputAction.Ultimate).started += context => AltFire();
         InputHolder.GetAction(TypeInputAction.CloseCombat).started += context => TryMelee();
-        
-        
 
 
     }
@@ -77,7 +76,7 @@ public abstract class WeaponBase : MonoBehaviour
         //    TryMelee();
 
         //if (Input.GetMouseButtonDown(1))
-        //    Aim(); // Заглушка
+        //    Aim();
     }
 
     public virtual void Fire()
@@ -142,11 +141,20 @@ public abstract class WeaponBase : MonoBehaviour
             s.OnLevelUp();
     }
 
-    public void AddSynergy(SynergyBase synergy)
+    public void AddSynergy(SynergyBase synergy, string equipmentName)
     {
+        string pairKey = weaponName + "+" + equipmentName;
+        if (synergyPairs.Contains(pairKey))
+            return;
+
+        synergyPairs.Add(pairKey);
         synergies.Add(synergy);
         synergy.Init(this);
+        AddLevel();
     }
 
+
     public int GetLevel() => level;
+
+    
 }

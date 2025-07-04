@@ -12,11 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326f8970bc34da54f9a3c850bcc3fd90, type: 3}
   m_Name: ShotgunUpgrade
   m_EditorClassIdentifier: 
-  levels:
-  - damage: 0
-    fireRate: 0
-    magazineSize: 0
-    reloadTime: 0
+  levels: []
   weaponLevels:
   - damage: 12.5
     fireRate: 0.5

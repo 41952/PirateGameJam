@@ -11,6 +11,7 @@ public class PlayerHealthSystem : MonoBehaviour
     private Stat _regenStat;
 
     private float _currentHealth;
+    private bool invulnerable = false;
 
     private void Start()
     {
@@ -59,9 +60,18 @@ public class PlayerHealthSystem : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (invulnerable) return;
         _currentHealth -= amount;
         _currentHealth = Mathf.Max(_currentHealth, 0f);
     }
+
+    public void Heal(float amount)
+    {
+        _currentHealth= Mathf.Min(_healthStat.FinalValue, _currentHealth + amount);
+        Debug.Log($"Player healed for {amount}, current HP: {_currentHealth}");
+    }
+
+    public void SetInvulnerable(bool value) => invulnerable = value;
 
     public float GetCurrentHealth() => _currentHealth;
     public float GetMaxHealth() => _healthStat.FinalValue;

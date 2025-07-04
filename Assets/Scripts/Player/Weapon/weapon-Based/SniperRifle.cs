@@ -59,6 +59,7 @@ public class SniperRifle : WeaponBase
     public override void Aim()
     {
         if (mainCamera == null) return;
+        if (!gameObject.activeInHierarchy) return;
 
         if (!isAiming)
         {

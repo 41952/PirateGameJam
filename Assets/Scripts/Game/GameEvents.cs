@@ -56,6 +56,12 @@ public static class GameEvents
     }
     // хп
     public static event Action<float,float> OnPlayerHealthChanged;
+    public static Action<bool> OnUltimateStateChanged;
+
+    public static void RaiseUltimateStateChanged(bool active)
+    {
+        OnUltimateStateChanged?.Invoke(active);
+    }
 
     public static void RaisePlayerHealthChanged(float currentHealth,float maxHealth)
     {

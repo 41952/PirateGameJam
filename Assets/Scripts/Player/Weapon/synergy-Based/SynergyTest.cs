@@ -4,6 +4,12 @@ public class SynergyTest : SynergyBase
 {
     public override void OnAltFire()
     {
-        Debug.Log("DamageSynergy!~");
+        base.OnAltFire();
+
+        if (IsUltimateActive())
+        {
+            // Пример действия ульты
+            Debug.Log("SynergyTest: ульта активна! Урон увеличен!");
+        }
     }
 }

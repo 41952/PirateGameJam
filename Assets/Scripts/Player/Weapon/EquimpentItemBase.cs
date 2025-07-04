@@ -42,6 +42,7 @@ public class EquipmentItem : MonoBehaviour
         stat.AddUpgrade(bonus);
 
         level++;
+        InventoryManager.Instance.CheckSynergies();
         Debug.Log($"[{data.equipmentName}] Level {level} — +{percent * 100f}% ({bonus:F1}) к {data.targetStat}");
     }
 

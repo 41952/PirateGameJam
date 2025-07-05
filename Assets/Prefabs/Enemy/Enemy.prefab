@@ -314,6 +314,7 @@ GameObject:
   - component: {fileID: 4150760872048129749}
   - component: {fileID: 4007421002605404186}
   - component: {fileID: 3041182589991520250}
+  - component: {fileID: -6893020175658511550}
   m_Layer: 2
   m_Name: Enemy
   m_TagString: Untagged
@@ -340,6 +341,7 @@ Transform:
   - {fileID: 8990869335321072976}
   - {fileID: 1568110491531960208}
   - {fileID: 13331829815100624}
+  - {fileID: 8931004741942447255}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &8668896306798935070
@@ -377,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d3c47f62349b39429958646047ce433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 3
   sightRadius: 39.2
   sightAngle: 120
   detectionSphereRadius: 7.76
@@ -481,6 +484,19 @@ MonoBehaviour:
       multiplier: 4
     - type: 2
       multiplier: 1.5
+--- !u!114 &-6893020175658511550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126110007042723288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988dc572b3abe304eb3b57f88d8d6627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefabReference: {fileID: 1126110007042723288}
 --- !u!1 &2996671644925954838
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,6 +1081,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8010799183203597656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8931004741942447255}
+  - component: {fileID: 4842008574273228808}
+  m_Layer: 0
+  m_Name: RepairPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8931004741942447255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010799183203597656}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.22845711, y: -0, z: -0, w: 0.97355396}
+  m_LocalPosition: {x: 0, y: 1.034, z: -0.502}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6072655646864198163}
+  m_LocalEulerAnglesHint: {x: 26.413, y: 0, z: 0}
+--- !u!114 &4842008574273228808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010799183203597656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8103e1b6c1b19d46b7f72040b666d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8447035537859902895
 GameObject:
   m_ObjectHideFlags: 0

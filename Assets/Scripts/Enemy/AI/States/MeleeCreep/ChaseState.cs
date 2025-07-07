@@ -36,13 +36,20 @@ public class ChaseState : State
                 stateMachine.ChangeState(new RangedAttackState(ranged, stateMachine));
             }
         }
+        if (owner is ChargingEnemyAI charger && charger.InChargeRange())
+        {
+
+            stateMachine.ChangeState(new ChargePrepareState(charger, stateMachine));
+            return;
+        }
+
         else if (dist <= owner.agent.stoppingDistance && owner.CanDetectPlayer())
         {
             // обычная ближняя атака для тех, кто не наследует RangedEnemyAI
             owner.agent.isStopped = true;
             stateMachine.ChangeState(new AttackState(owner, stateMachine));
         }
-        
+
 
 
         else if (!owner.CanDetectPlayer() && !owner.PlayerInMemory)

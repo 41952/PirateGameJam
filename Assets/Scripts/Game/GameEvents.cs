@@ -63,6 +63,12 @@ public static class GameEvents
         OnUltimateStateChanged?.Invoke(active);
     }
 
+    // спавнер волн
+    public static Action<int> OnWaveStarted;
+    public static Action<int> OnWaveEnded;
+    public static Action<GameObject> OnEnemySpawned;
+    public static Action OnAllWavesCompleted;
+
     public static void RaisePlayerHealthChanged(float currentHealth,float maxHealth)
     {
         OnPlayerHealthChanged?.Invoke(currentHealth,maxHealth);

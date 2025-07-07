@@ -20,17 +20,18 @@ public class PlayerHealthSystem : MonoBehaviour
         _regenStat = _stats.GetStat(StatType.HealthRegen);
 
         _currentHealth = _healthStat.FinalValue;
+        GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
     }
 
     private void OnEnable()
     {
         _stats = GetComponent<StatsContainer>();
-        GameEvents.OnStatChanged += OnStatChanged;
+        //GameEvents.OnStatChanged += OnStatChanged;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnStatChanged -= OnStatChanged;
+        //GameEvents.OnStatChanged -= OnStatChanged;
     }
 
     private void OnStatChanged(StatsContainer source, StatType type, float newValue)
@@ -44,6 +45,7 @@ public class PlayerHealthSystem : MonoBehaviour
     public void SetCurrentHealthToMax()
     {
         _currentHealth = _healthStat.FinalValue;
+        GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
     }
 
     private void Update()
@@ -54,9 +56,11 @@ public class PlayerHealthSystem : MonoBehaviour
             _currentHealth += _regenStat.FinalValue * Time.deltaTime;
             _currentHealth = Mathf.Min(_currentHealth, _healthStat.FinalValue);
             GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
+
         }
         if (_currentHealth <= 1f)
             Die();
+        
     }
 
     public void TakeDamage(float amount)

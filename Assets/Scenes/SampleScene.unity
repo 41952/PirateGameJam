@@ -684,7 +684,7 @@ GameObject:
   - component: {fileID: 337110147}
   - component: {fileID: 337110146}
   m_Layer: 5
-  m_Name: Healthtext
+  m_Name: ExpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -729,7 +729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 400/400
+  m_text: 0/100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -875,7 +875,8 @@ MonoBehaviour:
   healthPanel: {fileID: 1976755512}
   healthFillImage: {fileID: 1608169714}
   healthText: {fileID: 2046762291}
-  healthPanelScaleModifier: 5
+  healthPanelScaleModifier: 1
+  healtPanelBaseWidth: 400
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2604,7 +2605,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

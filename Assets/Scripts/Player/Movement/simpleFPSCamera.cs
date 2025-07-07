@@ -71,6 +71,13 @@ public class SimpleFpsCamera : MonoBehaviour
         isWalking = isMoving && !running;
     }
 
+        public void SetYRotation(float newY)
+        {
+            yRotation = newY;
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
+
     void StartWalkingShake()
     {
         StopShake();

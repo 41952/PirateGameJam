@@ -20,7 +20,7 @@ public class Sword : WeaponBase
 
         lastFireTime = Time.time;
 
-        Debug.Log($"{weaponName} sword swing!");
+        Debug.Log($"{weaponName} swing!");
 
         Collider[] hits = Physics.OverlapSphere(firePoint.position, attackRange);
         int targetsHit = 0;

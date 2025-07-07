@@ -4,7 +4,7 @@ using UnityEngine;
 public class StatsContainer : MonoBehaviour
 {
     private readonly Dictionary<StatType, Stat> _stats = new Dictionary<StatType, Stat>();
-    
+
     public static StatsContainer Instance { get; private set; }
 
     private void Awake()
@@ -61,6 +61,7 @@ public class StatsContainer : MonoBehaviour
             Debug.LogWarning($"Stat {mod.TargetStat} not found on {gameObject.name}");
         }
     }
+    
 
 }
 

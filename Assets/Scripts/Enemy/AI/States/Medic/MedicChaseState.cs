@@ -41,7 +41,7 @@ public class MedicChaseState : MedicState
         }
 
         float dist = Vector3.Distance(medic.transform.position, dest);
-        if (dist < 0.1f)
+        if (dist < 0.01f)
         {
             stateMachine.ChangeState(new MedicHealState(medic, stateMachine, targetPoint));
         }

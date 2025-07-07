@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c0a3b9e7ae2d74eb67fb577f055822, type: 3}
+  m_Name: WaveData 6
+  m_EditorClassIdentifier: 
+  waveDuration: 138
+  intermission: 15
+  spawnList:
+  - prefab: {fileID: 1126110007042723288, guid: 18197054a1fef0449ab4b4f6db6074fc, type: 3}
+    count: 10
+  - prefab: {fileID: 8972781301896570006, guid: 884091f0731998344bf3c6410e3f051a, type: 3}
+    count: 5
+  - prefab: {fileID: 3109054831069530631, guid: 1c9d5283d04c94a49a5f9dfa1872324b, type: 3}
+    count: 5
+  levelChangePrefabsToSpawn: []

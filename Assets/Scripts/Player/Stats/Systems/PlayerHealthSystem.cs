@@ -53,8 +53,6 @@ public class PlayerHealthSystem : MonoBehaviour
             _currentHealth += _regenStat.FinalValue * Time.deltaTime;
             _currentHealth = Mathf.Min(_currentHealth, _healthStat.FinalValue);
         }
-        if (_currentHealth <= 1f)
-            Die();
     }
 
     public void TakeDamage(float amount)
@@ -62,6 +60,8 @@ public class PlayerHealthSystem : MonoBehaviour
         if (invulnerable) return;
         _currentHealth -= amount;
         _currentHealth = Mathf.Max(_currentHealth, 0f);
+        if (_currentHealth <= 1f)
+            Die();
     }
 
     public void Heal(float amount)
@@ -77,7 +77,8 @@ public class PlayerHealthSystem : MonoBehaviour
 
     private void Die()
     {
-        // рестарт уровня
-        SceneManager.LoadScene(0);
+        // найти и включить экран статистики
+        FindObjectOfType<GameStatsUI>().ShowStats();
+
     }
 }

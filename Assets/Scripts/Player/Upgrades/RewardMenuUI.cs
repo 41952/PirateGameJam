@@ -21,6 +21,7 @@ public class RewardMenuUI : MonoBehaviour
     [ContextMenu("OpenUpgradesMenu")]
     public void OpenMenu()
     {
+        MusicManager.Instance.PlayIntermission();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -48,6 +49,7 @@ public class RewardMenuUI : MonoBehaviour
             Destroy(go);
         }
         spawnedOptions.Clear();
+        MusicManager.Instance.PlayBattle();
 
         rewardPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;

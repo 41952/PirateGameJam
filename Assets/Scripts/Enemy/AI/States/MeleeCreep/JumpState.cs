@@ -15,7 +15,7 @@ public class JumpState : State
             var data=owner.agent.currentOffMeshLinkData;
             Vector3 start=owner.transform.position;
             Vector3 end=data.endPos;
-            float duration=Vector3.Distance(start,end)/owner.agent.speed;
+            float duration=Vector3.Distance(start,end)/owner.agent.speed/2;
             float elapsed=0;
             // release link for manual movement
             owner.agent.updatePosition=false;

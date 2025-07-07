@@ -331,7 +331,7 @@ Transform:
   m_GameObject: {fileID: 1126110007042723288}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.28, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -380,9 +380,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 3
-  sightRadius: 39.2
+  sightRadius: 50
   sightAngle: 120
-  detectionSphereRadius: 7.76
+  detectionSphereRadius: 20
   seekAllyRadius: 6.56
   transferTimeout: 2
   attackRadius: 2
@@ -407,7 +407,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 6
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120

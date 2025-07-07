@@ -1,4 +1,4 @@
-using UnityEditor.ShaderGraph;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,17 +40,8 @@ public class Movement : MonoBehaviour
     }
     private void Start()
     {
-       
-
-
-
-        
-        //биндим булеан на ивент нажания и удержание кнопки спринта в управлении
-        InputHolder.GetAction(TypeInputAction.Sprint).started += context => isRunning = true; //нажали
-        InputHolder.GetAction(TypeInputAction.Sprint).performed += context => isRunning = true; //держим
-        InputHolder.GetAction(TypeInputAction.Sprint).canceled += context => isRunning = false; //отпустили
-
-        
+        InputHolder.GetAction(TypeInputAction.Sprint).performed += context => isRunning = true; 
+        InputHolder.GetAction(TypeInputAction.Sprint).canceled += context => isRunning = false; 
     }
 
 

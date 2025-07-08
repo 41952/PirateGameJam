@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public abstract class WeaponBase : MonoBehaviour
 {
+    [Header("Shoot Settings")]
     public string weaponName;
     public float baseDamage;
     public float baseDamageMultiplier;
@@ -14,10 +15,22 @@ public abstract class WeaponBase : MonoBehaviour
 
     public int maxLevel = 6;
 
+    [Header("Shake Settings")]
+    public float recoilDelay = 0.08f;
+    public float recoilAmout = 7f;
+    public float shakeDelay = 0.1f;
+    public float shakeAmout = 0.15f;
+
+    [HideInInspector] public SimpleFpsCamera cameraScript;
 
     [HideInInspector] public float lastFireTime;
     [HideInInspector] public float reloadTimer;
     [HideInInspector] public bool isReloading = false;
+    [HideInInspector] public Transform firePoint; // точка, откуда идёт выстрел
+    [HideInInspector] public Camera mainCamera;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
 
     [Header("Melee")]
     public float meleeCooldown = 1.0f;
@@ -28,11 +41,11 @@ public abstract class WeaponBase : MonoBehaviour
     private HashSet<string> synergyPairs = new(); // weaponName+equipmentName
    
     private bool isAttacking = false;
+    
 
  
     private void Start()
     {
-
         //биндим выстрелы на нажатие и удержание клавиш стрельбы и альт стрельбы
         InputHolder.GetAction(TypeInputAction.Shoot).started += context => isAttacking = true;
         InputHolder.GetAction(TypeInputAction.Shoot).performed += context => isAttacking = true;
@@ -42,7 +55,12 @@ public abstract class WeaponBase : MonoBehaviour
         InputHolder.GetAction(TypeInputAction.Ultimate).started += context => AltFire();
         InputHolder.GetAction(TypeInputAction.CloseCombat).started += context => TryMelee();
 
-
+        if (Camera.main != null)
+        {
+            mainCamera = Camera.main;
+            firePoint = mainCamera.transform;
+            cameraScript = Camera.main.GetComponent<SimpleFpsCamera>();
+        }
     }
   
     public virtual void Update()

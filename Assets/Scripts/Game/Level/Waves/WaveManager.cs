@@ -6,7 +6,8 @@ public class WaveManager : MonoBehaviour
     [Header("Конфигурация волн")]
     public List<WaveData> waves;
     [Header("Спавнеры врагов на арене")] private List<EnemySpawner> spawners;
-    [Header("Компонент, который активирует изменения уровня")] public LevelChangeActivator levelChangeActivator;
+    [Header("Объекты сцены, которые включаются/выключаются по волнам")] public LevelSceneChanges sceneChanges;
+
     [Header("Задержка между спавнами врагов")] public float enemySpawnDelay = 0.2f;
 
     private int currentWave = 0;
@@ -19,8 +20,16 @@ public class WaveManager : MonoBehaviour
 
     private void UpdateSpawners()
     {
-        spawners = new List<EnemySpawner>(FindObjectsOfType<EnemySpawner>());
+        spawners = new List<EnemySpawner>();
+        foreach (var spawner in FindObjectsOfType<EnemySpawner>())
+        {
+            if (spawner.gameObject.activeInHierarchy)
+            {
+                spawners.Add(spawner);
+            }
+        }
     }
+
 
     private IEnumerator RunWaves()
     {
@@ -29,7 +38,7 @@ public class WaveManager : MonoBehaviour
             var data = waves[currentWave];
             GameEvents.OnWaveStarted?.Invoke(currentWave + 1);
 
-            levelChangeActivator.ApplyChanges(data.levelChangePrefabsToSpawn);
+            sceneChanges.ApplyChangesForWave(currentWave);
             UpdateSpawners();
 
             int totalCount = 0;

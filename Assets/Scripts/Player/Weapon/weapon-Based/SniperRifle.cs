@@ -4,7 +4,6 @@ using DG.Tweening;
 public class SniperRifle : WeaponBase
 {
     [Header("HitScan Settings")]
-    private Transform firePoint;
     public float fireRange = 100f;
 
     [Header("Sniper Settings")]
@@ -16,20 +15,10 @@ public class SniperRifle : WeaponBase
     [Header("Melee Settings")]
     public float meleeRange = 3f;
     public float meleeAngle = 60f;
-
-    private float originalFOV;
     private bool isAiming = false;
-    private Camera mainCamera;
 
     private void Awake()
     {
-        if (Camera.main != null)
-        {
-            mainCamera = Camera.main;
-            firePoint = mainCamera.transform;
-            originalFOV = mainCamera.fieldOfView;
-        }
-
         GameObject canvasGO = GameObject.FindGameObjectWithTag("Aim");
         if (canvasGO != null)
         {
@@ -64,8 +53,7 @@ public class SniperRifle : WeaponBase
         if (!isAiming)
         {
             isAiming = true;
-            originalFOV = mainCamera.fieldOfView;
-            mainCamera.DOFieldOfView(aimFOV, aimDuration);
+            cameraScript.SetAimFOV(true);
             if (sniperScopeCanvas != null)
                 sniperScopeCanvas.enabled = true;
         }
@@ -80,7 +68,7 @@ public class SniperRifle : WeaponBase
         if (!isAiming || mainCamera == null) return;
 
         isAiming = false;
-        mainCamera.DOFieldOfView(originalFOV, aimDuration);
+        cameraScript.SetAimFOV(false);
         if (sniperScopeCanvas != null)
             sniperScopeCanvas.enabled = false;
     }
@@ -109,6 +97,9 @@ public class SniperRifle : WeaponBase
                 Debug.Log($"Sniper hit {hit.collider.name} for {damage} (x{armorPenetrationMultiplier})");
             }
         }
+
+        cameraScript.PlayRecoil(recoilAmout, recoilDelay);
+        cameraScript.PlayFireShake(shakeAmout, shakeDelay);
 
         foreach (var s in synergies)
             s.OnFire();

@@ -25,6 +25,10 @@ public class Movement : MonoBehaviour
     private bool jumpPressed = false;
 
     private PlayerInput playerInput;
+
+    private Camera mainCamera;
+    private SimpleFpsCamera cameraScript;
+
     
     private void Awake()
     {
@@ -34,14 +38,21 @@ public class Movement : MonoBehaviour
         body = GameObject.FindWithTag("Body");
         forwardPoint = GameObject.FindWithTag("Forward");
 
+        if (Camera.main != null)
+        {
+            mainCamera = Camera.main;
+            cameraScript = Camera.main.GetComponent<SimpleFpsCamera>();
+        }
+
         playerInput = GetComponent<PlayerInput>();
         InputHolder.SetupInput(playerInput);
 
     }
     private void Start()
     {
-        InputHolder.GetAction(TypeInputAction.Sprint).performed += context => isRunning = true; 
+        InputHolder.GetAction(TypeInputAction.Sprint).performed += context => isRunning = true;
         InputHolder.GetAction(TypeInputAction.Sprint).canceled += context => isRunning = false; 
+        
     }
 
 
@@ -91,6 +102,7 @@ public class Movement : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             jumpCooldown = true;
+            cameraScript.PlayJumpImpact();
             Invoke(nameof(JumpReady), 0.01f);
         }
 

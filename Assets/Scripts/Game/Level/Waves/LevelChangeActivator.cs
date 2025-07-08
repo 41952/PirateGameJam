@@ -1,22 +1,28 @@
 using UnityEngine;
-using UnityEngine.AI;
-using Unity.AI.Navigation;
 using System.Collections.Generic;
-public class LevelChangeActivator : MonoBehaviour
+
+public class LevelSceneChanges : MonoBehaviour
 {
-    public Transform levelRoot; // куда спавнить
-    public NavMeshSurface surfaceToRebake;
-
-    public void ApplyChanges(List<GameObject> prefabsToSpawn)
+    [System.Serializable]
+    public class WaveLevelObjects
     {
-        foreach (var prefab in prefabsToSpawn)
-        {
-            if (prefab != null)
-                Instantiate(prefab, levelRoot);
-        }
-
-        if (surfaceToRebake != null)
-            surfaceToRebake.BuildNavMesh();
+        public string waveName;
+        public List<GameObject> objectsToEnable;
+        public List<GameObject> objectsToDisable;
     }
 
+    public List<WaveLevelObjects> waveChanges;
+
+    public void ApplyChangesForWave(int waveIndex)
+    {
+        if (waveIndex < 0 || waveIndex >= waveChanges.Count) return;
+
+        var change = waveChanges[waveIndex];
+
+        foreach (var go in change.objectsToEnable)
+            if (go != null) go.SetActive(true);
+
+        foreach (var go in change.objectsToDisable)
+            if (go != null) go.SetActive(false);
+    }
 }

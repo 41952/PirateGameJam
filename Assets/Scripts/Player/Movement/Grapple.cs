@@ -6,6 +6,11 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float grappleDuration = 5f;
     [SerializeField] private float grappleCooldown = 5f;
 
+    [Header("jointSettings")]
+    [SerializeField] private float spring = 20f;
+    [SerializeField] private float damper = 4f;
+    [SerializeField] private float massScale = 1f;
+
     private LineRenderer lr;
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
@@ -26,6 +31,7 @@ public class GrapplingGun : MonoBehaviour
     {
         InputHolder.GetAction(TypeInputAction.Hook).started += context => TryStartGrapple();
         InputHolder.GetAction(TypeInputAction.Hook).canceled += context => StopGrapple();
+        lr.positionCount = 0;
     }
 
     private void Update()
@@ -75,9 +81,9 @@ public class GrapplingGun : MonoBehaviour
             joint.maxDistance = distanceFromPoint * 0.85f;
             joint.minDistance = distanceFromPoint * 0.05f;
 
-            joint.spring = 20f;
-            joint.damper = 4f;
-            joint.massScale = 1f;
+            joint.spring = spring;
+            joint.damper = damper;
+            joint.massScale = massScale;
 
             lr.positionCount = 2;
             currentGrapplePosition = gunTip.position;

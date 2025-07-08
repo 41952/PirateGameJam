@@ -32,7 +32,7 @@ public class JumpPad : MonoBehaviour
         SimpleFpsCamera cam = FindObjectOfType<SimpleFpsCamera>();
         if (cam != null)
         {
-            cam.SetYRotation(targetYaw);
+            //cam.SetYRotation(targetYaw);
         }
     }
 }

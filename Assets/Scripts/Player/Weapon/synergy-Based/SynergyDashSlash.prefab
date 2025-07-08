@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ultimateChargeTime: 3
-  ultimateDuration: 0.2
+  ultimateDuration: 0.35
   dashDistance: 10
   dashSpeed: 50
   damage: 50

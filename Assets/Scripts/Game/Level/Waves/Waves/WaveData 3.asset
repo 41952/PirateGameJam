@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaveData 3
   m_EditorClassIdentifier: 
   waveDuration: 84
-  intermission: 15
+  intermission: 5
   spawnList:
   - prefab: {fileID: 1126110007042723288, guid: 18197054a1fef0449ab4b4f6db6074fc, type: 3}
     count: 10
@@ -21,5 +21,3 @@ MonoBehaviour:
     count: 15
   - prefab: {fileID: 2150070923019821184, guid: 0374ac7e456f2e040ab61858955d61c4, type: 3}
     count: 1
-  levelChangePrefabsToSpawn:
-  - {fileID: 4574630707237612186, guid: 822215b14b92c7a43adaef7d77ffe3bf, type: 3}

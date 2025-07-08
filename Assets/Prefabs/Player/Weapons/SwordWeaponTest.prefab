@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smooth: 5
-  multiplier: 2
+  multiplier: 5
 --- !u!114 &5014327615458219514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,13 +72,19 @@ MonoBehaviour:
   reloadTime: 0
   level: 1
   maxLevel: 6
+  recoilDelay: 0.08
+  recoilAmout: 10
+  shakeDelay: 0.1
+  shakeAmout: 0.5
+  cameraScript: {fileID: 0}
   lastFireTime: 0
   reloadTimer: 0
   isReloading: 0
+  firePoint: {fileID: 0}
+  mainCamera: {fileID: 0}
   meleeCooldown: 1
   meleeDamage: 25
   synergies: []
-  firePoint: {fileID: 0}
   attackRange: 5
   attackAngle: 60
 --- !u!114 &2108542016762005227

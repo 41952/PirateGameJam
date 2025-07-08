@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8662fe578b63bd49af593154a9f036f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ultimateChargeTime: 5
-  ultimateDuration: 3
+  ultimateChargeTime: 10
+  ultimateDuration: 5

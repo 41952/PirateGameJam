@@ -3,7 +3,6 @@ using UnityEngine;
 public class ShotGun : WeaponBase
 {
     [Header("HitScan Settings")]
-    private Transform firePoint;
     public float fireRange = 100f;
 
     [Header("Shotgun Settings")]
@@ -13,12 +12,6 @@ public class ShotGun : WeaponBase
     [Header("Melee Settings")]
     public float meleeRange = 3f;
     public float meleeAngle = 60f;
-
-    private void Awake()
-    {
-        if (firePoint == null && Camera.main != null)
-            firePoint = Camera.main.transform;
-    }
 
     public override void Fire()
     {
@@ -45,6 +38,9 @@ public class ShotGun : WeaponBase
                 }
             }
         }
+
+        cameraScript.PlayRecoil(recoilAmout, recoilDelay);
+        cameraScript.PlayFireShake(shakeAmout, shakeDelay);
 
         foreach (var s in synergies)
             s.OnFire();

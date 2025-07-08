@@ -3,15 +3,8 @@ using UnityEngine;
 public class Sword : WeaponBase
 {
     [Header("Melee Settings")]
-    public Transform firePoint;
     public float attackRange = 3f;
     public float attackAngle = 60f;
-
-    private void Awake()
-    {
-        if (firePoint == null && Camera.main != null)
-            firePoint = Camera.main.transform;
-    }
 
     public override void Fire()
     {
@@ -41,6 +34,9 @@ public class Sword : WeaponBase
                 }
             }
         }
+        
+        cameraScript.PlayRecoil(recoilAmout, recoilDelay);
+        cameraScript.PlayFireShake(shakeAmout, shakeDelay);
 
         foreach (var s in synergies)
             s.OnFire();

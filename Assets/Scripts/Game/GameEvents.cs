@@ -54,7 +54,20 @@ public static class GameEvents
     {
         OnWeaponSwitched?.Invoke(newIndex, weapon);
     }
+    // хп
+    public static event Action<float,float> OnPlayerHealthChanged;
+    public static void RaisePlayerHealthChanged(float currentHealth, float maxHealth)
+    {
+        OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+    //ультимейт
     public static Action<bool> OnUltimateStateChanged;
+    public static Action<float, float> OnUltimateCooldown;
+
+    public static void RaiseUltimateCooldown(float currentCooldown,float maxCooldown)
+    {
+        OnUltimateCooldown?.Invoke(currentCooldown, maxCooldown);
+    }
 
     public static void RaiseUltimateStateChanged(bool active)
     {
@@ -66,5 +79,18 @@ public static class GameEvents
     public static Action<int> OnWaveEnded;
     public static Action<GameObject> OnEnemySpawned;
     public static Action OnAllWavesCompleted;
+    //ammo
+    public static Action<int,int> OnAmmoChanged;
 
+    public static void RaiseAmmoChanged(int currentAmmo,int maxAmmo)
+    {
+        OnAmmoChanged?.Invoke(currentAmmo,maxAmmo);
+    }
+    // hook
+    public static Action<float, float> OnHookCooldownUpdated;
+    public static void RaiseHookCooldownUpdated(float currentCooldown, float maxCooldown)
+    {
+        OnHookCooldownUpdated?.Invoke(currentCooldown,maxCooldown);
+    }
+   
 }

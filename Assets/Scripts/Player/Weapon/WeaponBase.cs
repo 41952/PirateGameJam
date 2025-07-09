@@ -61,6 +61,7 @@ public abstract class WeaponBase : MonoBehaviour
             firePoint = mainCamera.transform;
             cameraScript = Camera.main.GetComponent<SimpleFpsCamera>();
         }
+        GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);//подгружаем количество патронов в интерфейс
     }
   
     public virtual void Update()
@@ -72,6 +73,7 @@ public abstract class WeaponBase : MonoBehaviour
             {
                 isReloading = false;
                 currentAmmo = magazineSize;
+                GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);
                 Debug.Log($"{weaponName} reload complete.");
             }
             return;
@@ -79,6 +81,7 @@ public abstract class WeaponBase : MonoBehaviour
         if(isAttacking)
         {
             Fire();
+            GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);
         }
 
         //if (Input.GetMouseButtonDown(1))
@@ -103,6 +106,7 @@ public abstract class WeaponBase : MonoBehaviour
             return;
 
         currentAmmo--;
+        GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);
         lastFireTime = Time.time;
 
         Debug.Log($"{weaponName} shoot!~ Current Ammo: {currentAmmo}");

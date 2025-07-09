@@ -30,6 +30,7 @@ public class AutoRifle : WeaponBase
             
 
         currentAmmo--;
+        
         lastFireTime = Time.time;
 
         Vector3 direction = GetSpreadDirection(firePoint.forward, projectileSpread);

@@ -6,8 +6,8 @@ public abstract class StatListener : MonoBehaviour
 
         private void OnEnable()
         {
-            StartCoroutine(WaitAndSubscribe());
-        }
+        StartCoroutine(WaitAndSubscribe());
+    }
 
         private System.Collections.IEnumerator WaitAndSubscribe()
         {

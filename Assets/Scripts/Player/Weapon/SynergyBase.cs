@@ -26,9 +26,11 @@ public abstract class SynergyBase : MonoBehaviour
         if (!ultimateActive && !ultimateReady)
         {
             chargeTimer += Time.deltaTime;
+            GameEvents.RaiseUltimateCooldown(chargeTimer, ultimateChargeTime);
 
             if (chargeTimer >= ultimateChargeTime)
             {
+                
                 chargeTimer = ultimateChargeTime;
                 ultimateReady = true;
                 Debug.Log("Ultimate Ready!");

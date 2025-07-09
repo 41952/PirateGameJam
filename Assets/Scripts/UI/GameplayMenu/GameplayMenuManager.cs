@@ -34,6 +34,9 @@ public class GameplayMenuManager : MonoBehaviour
     [Header("Hook")]
     [SerializeField]
     private Image hookFillImage;
+    [Header("Ultimate")]
+    private Image ultimateFillImage;
+
 
     private void OnEnable()
     {
@@ -42,9 +45,10 @@ public class GameplayMenuManager : MonoBehaviour
         GameEvents.OnPlayerLevelUp += OnLvlUp;
         GameEvents.OnAmmoChanged += OnAmmoChanged;
         GameEvents.OnHookCooldownUpdated += OnHookCooldownChanged;
+        GameEvents.OnUltimateCooldown += OnUltimateCooldown;
     }
 
-   
+    
 
     private void OnDisable()
     {
@@ -53,6 +57,7 @@ public class GameplayMenuManager : MonoBehaviour
         GameEvents.OnPlayerLevelUp -= OnLvlUp;
         GameEvents.OnAmmoChanged -= OnAmmoChanged;
         GameEvents.OnHookCooldownUpdated -= OnHookCooldownChanged;
+        GameEvents.OnUltimateCooldown -= OnUltimateCooldown;
     }
     private void OnHealthChanged(float currentHealth,float maxHealth)
     {
@@ -79,5 +84,9 @@ public class GameplayMenuManager : MonoBehaviour
     private void OnHookCooldownChanged(float currentTime, float maxTime)
     {
         hookFillImage.fillAmount = (maxTime - currentTime)/maxTime;
+    }
+    private void OnUltimateCooldown(float currentTime, float maxTime)
+    {
+        ultimateFillImage.fillAmount = currentTime / maxTime;
     }
 }

@@ -62,6 +62,12 @@ public static class GameEvents
     }
     //ультимейт
     public static Action<bool> OnUltimateStateChanged;
+    public static Action<float, float> OnUltimateCooldown;
+
+    public static void RaiseUltimateCooldown(float currentCooldown,float maxCooldown)
+    {
+        OnUltimateCooldown?.Invoke(currentCooldown, maxCooldown);
+    }
 
     public static void RaiseUltimateStateChanged(bool active)
     {

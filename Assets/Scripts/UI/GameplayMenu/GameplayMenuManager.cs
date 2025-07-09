@@ -27,14 +27,23 @@ public class GameplayMenuManager : MonoBehaviour
     private RectTransform lvlUpIcon;
     [SerializeField]
     private TMP_Text lvlUpText;
+    [Header("Ammo")]
+    [SerializeField]
+    private TMP_Text ammoText;
 
     private void OnEnable()
     {
         GameEvents.OnPlayerHealthChanged += OnHealthChanged;
+        GameEvents.OnPlayerXPGained += OnExpChanged;
+        GameEvents.OnPlayerLevelUp += OnLvlUp;
+        GameEvents.OnAmmoChanged += OnAmmoChanged;
     }
     private void OnDisable()
     {
         GameEvents.OnPlayerHealthChanged -= OnHealthChanged;
+        GameEvents.OnPlayerXPGained -= OnExpChanged;
+        GameEvents.OnPlayerLevelUp -= OnLvlUp;
+        GameEvents.OnAmmoChanged -= OnAmmoChanged;
     }
     private void OnHealthChanged(float currentHealth,float maxHealth)
     {
@@ -43,8 +52,19 @@ public class GameplayMenuManager : MonoBehaviour
         healthPanel.sizeDelta = new Vector2 (healtPanelBaseWidth + maxHealth * healthPanelScaleModifier, healthPanel.sizeDelta.y);
     }
 
-    private void OnExpChanged()
+    private void OnExpChanged(PlayerExperience playerXP, int amount)
+    {
+        //expText.text = $"{Mathf.Round(playerXP.CurrentXP)}/{playerXP.XPForNextLevel}";
+        expText.text = $"{playerXP.XPForNextLevel}";
+        //expFillImage.fillAmount = playerXP.CurrentXP / playerXP.XPForNextLevel;
+    }
+    private void OnLvlUp(PlayerExperience playerXP, int newLevel)
     {
 
+    }
+
+    private void OnAmmoChanged(int currentAmmo, int maxAmmo)
+    {
+        ammoText.text = $"{currentAmmo}/{maxAmmo}";
     }
 }

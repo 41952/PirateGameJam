@@ -1718,9 +1718,9 @@ MonoBehaviour:
   healthText: {fileID: 5809414203963993344}
   healthPanelScaleModifier: 1
   healtPanelBaseWidth: 400
-  expPanel: {fileID: 0}
-  expFillImage: {fileID: 0}
-  expText: {fileID: 0}
+  expPanel: {fileID: 986077971816494568}
+  expFillImage: {fileID: 2771055177986234410}
+  expText: {fileID: 3457380607372610428}
   lvlUpIcon: {fileID: 0}
   lvlUpText: {fileID: 0}
 --- !u!1 &8774403256567566791

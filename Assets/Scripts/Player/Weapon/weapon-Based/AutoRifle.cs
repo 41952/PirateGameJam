@@ -37,6 +37,7 @@ public class AutoRifle : WeaponBase
             
 
         currentAmmo--;
+        GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);
         lastFireTime = Time.time;
 
         Vector3 direction = GetSpreadDirection(firePoint.forward, projectileSpread);

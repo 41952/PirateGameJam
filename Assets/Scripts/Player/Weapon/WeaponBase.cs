@@ -42,7 +42,7 @@ public abstract class WeaponBase : MonoBehaviour
         InputHolder.GetAction(TypeInputAction.Ultimate).started += context => AltFire();
         InputHolder.GetAction(TypeInputAction.CloseCombat).started += context => TryMelee();
 
-
+        GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);//подгружаем количество патронов в интерфейс
     }
   
     public virtual void Update()
@@ -54,6 +54,7 @@ public abstract class WeaponBase : MonoBehaviour
             {
                 isReloading = false;
                 currentAmmo = magazineSize;
+                GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);
                 Debug.Log($"{weaponName} reload complete.");
             }
             return;
@@ -85,6 +86,7 @@ public abstract class WeaponBase : MonoBehaviour
             return;
 
         currentAmmo--;
+        GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);
         lastFireTime = Time.time;
 
         Debug.Log($"{weaponName} shoot!~ Current Ammo: {currentAmmo}");

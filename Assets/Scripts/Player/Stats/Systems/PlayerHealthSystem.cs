@@ -18,7 +18,7 @@ public class PlayerHealthSystem : MonoBehaviour
         _stats = GetComponent<StatsContainer>();
         _healthStat = _stats.GetStat(StatType.Health);
         _regenStat = _stats.GetStat(StatType.HealthRegen);
-
+        GameEvents.OnStatChanged += OnStatChanged;
         _currentHealth = _healthStat.FinalValue;
         GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
     }
@@ -26,12 +26,12 @@ public class PlayerHealthSystem : MonoBehaviour
     private void OnEnable()
     {
         _stats = GetComponent<StatsContainer>();
-        //GameEvents.OnStatChanged += OnStatChanged;
+        //GameEvents.OnStatChanged += OnStatChanged;//пришлось убрать отсюда ,чтобы статы игрока успевали загрузиться
     }
 
     private void OnDisable()
     {
-        //GameEvents.OnStatChanged -= OnStatChanged;
+        GameEvents.OnStatChanged -= OnStatChanged;
     }
 
     private void OnStatChanged(StatsContainer source, StatType type, float newValue)

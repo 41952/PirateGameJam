@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +31,9 @@ public class GameplayMenuManager : MonoBehaviour
     [Header("Ammo")]
     [SerializeField]
     private TMP_Text ammoText;
+    [Header("Hook")]
+    [SerializeField]
+    private Image hookFillImage;
 
     private void OnEnable()
     {
@@ -37,13 +41,18 @@ public class GameplayMenuManager : MonoBehaviour
         GameEvents.OnPlayerXPGained += OnExpChanged;
         GameEvents.OnPlayerLevelUp += OnLvlUp;
         GameEvents.OnAmmoChanged += OnAmmoChanged;
+        GameEvents.OnHookCooldownUpdated += OnHookCooldownChanged;
     }
+
+   
+
     private void OnDisable()
     {
         GameEvents.OnPlayerHealthChanged -= OnHealthChanged;
         GameEvents.OnPlayerXPGained -= OnExpChanged;
         GameEvents.OnPlayerLevelUp -= OnLvlUp;
         GameEvents.OnAmmoChanged -= OnAmmoChanged;
+        GameEvents.OnHookCooldownUpdated -= OnHookCooldownChanged;
     }
     private void OnHealthChanged(float currentHealth,float maxHealth)
     {
@@ -54,17 +63,21 @@ public class GameplayMenuManager : MonoBehaviour
 
     private void OnExpChanged(PlayerExperience playerXP, int amount)
     {
-        //expText.text = $"{Mathf.Round(playerXP.CurrentXP)}/{playerXP.XPForNextLevel}";
-        expText.text = $"{playerXP.XPForNextLevel}";
-        //expFillImage.fillAmount = playerXP.CurrentXP / playerXP.XPForNextLevel;
+        expText.text = $"{playerXP.CurrentXP-playerXP.XPForCurrentLevel}/{playerXP.MaxPXForNextLevel - playerXP.XPForCurrentLevel}";
+        //expText.text = $"{playerXP.CurrentXP}/{playerXP.MaxPXForNextLevel}";
+        expFillImage.fillAmount = ((float)playerXP.CurrentXP - playerXP.XPForCurrentLevel) / (playerXP.MaxPXForNextLevel - playerXP.XPForCurrentLevel);
     }
     private void OnLvlUp(PlayerExperience playerXP, int newLevel)
     {
-
+        lvlUpText.text = $"{newLevel}";
     }
 
     private void OnAmmoChanged(int currentAmmo, int maxAmmo)
     {
         ammoText.text = $"{currentAmmo}/{maxAmmo}";
+    }
+    private void OnHookCooldownChanged(float currentTime, float maxTime)
+    {
+        hookFillImage.fillAmount = (maxTime - currentTime)/maxTime;
     }
 }

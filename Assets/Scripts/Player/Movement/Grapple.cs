@@ -53,6 +53,7 @@ public class GrapplingGun : MonoBehaviour
         if (isOnCooldown)
         {
             cooldownTimer -= Time.deltaTime;
+            GameEvents.RaiseHookCooldownUpdated(cooldownTimer, grappleCooldown);
             if (cooldownTimer <= 0f)
             {
                 isOnCooldown = false;

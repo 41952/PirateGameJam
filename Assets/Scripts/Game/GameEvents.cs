@@ -80,5 +80,11 @@ public static class GameEvents
     {
         OnAmmoChanged?.Invoke(currentAmmo,maxAmmo);
     }
+    // hook
+    public static Action<float, float> OnHookCooldownUpdated;
+    public static void RaiseHookCooldownUpdated(float currentCooldown, float maxCooldown)
+    {
+        OnHookCooldownUpdated?.Invoke(currentCooldown,maxCooldown);
+    }
    
 }

@@ -81,6 +81,7 @@ public abstract class WeaponBase : MonoBehaviour
         if(isAttacking)
         {
             Fire();
+            GameEvents.RaiseAmmoChanged(currentAmmo, magazineSize);
         }
 
         //if (Input.GetMouseButtonDown(1))

@@ -3,15 +3,8 @@ using UnityEngine;
 public class Sword : WeaponBase
 {
     [Header("Melee Settings")]
-    public Transform firePoint;
     public float attackRange = 3f;
     public float attackAngle = 60f;
-
-    private void Awake()
-    {
-        if (firePoint == null && Camera.main != null)
-            firePoint = Camera.main.transform;
-    }
 
     public override void Fire()
     {
@@ -20,7 +13,7 @@ public class Sword : WeaponBase
 
         lastFireTime = Time.time;
 
-        Debug.Log($"{weaponName} sword swing!");
+        Debug.Log($"{weaponName} swing!");
 
         Collider[] hits = Physics.OverlapSphere(firePoint.position, attackRange);
         int targetsHit = 0;
@@ -41,6 +34,9 @@ public class Sword : WeaponBase
                 }
             }
         }
+        
+        cameraScript.PlayRecoil(recoilAmout, recoilDelay);
+        cameraScript.PlayFireShake(shakeAmout, shakeDelay);
 
         foreach (var s in synergies)
             s.OnFire();

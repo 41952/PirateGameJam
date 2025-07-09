@@ -4,7 +4,6 @@ using UnityEngine;
 public class AutoRifle : WeaponBase
 {
     [Header("HitScan Settings")]
-    private Transform firePoint; // точка, откуда идёт выстрел
     [SerializeField] private GameObject projectilePrefab;
     public float projectileSpeed = 30f;
     public float projectileSpread = 1.2f; // множитель разброса (по оси X и Y)
@@ -13,12 +12,6 @@ public class AutoRifle : WeaponBase
     [Header("Melee Settings")]
     public float meleeRange = 3f;
     public float meleeAngle = 60f; // угол конуса
-
-    private void Awake()
-    {
-        if (firePoint == null && Camera.main != null)
-            firePoint = Camera.main.transform;
-    }
 
     [ContextMenu("LevelUP!~")]
     public override void AddLevel()
@@ -47,6 +40,8 @@ public class AutoRifle : WeaponBase
         {
             bullet.Initialize(projectileSpeed, baseDamage * baseDamageMultiplier, direction);
         }
+        cameraScript.PlayRecoil(recoilAmout, recoilDelay);
+        cameraScript.PlayFireShake(shakeAmout, shakeDelay);
 
         foreach (var s in synergies)
             s.OnFire();

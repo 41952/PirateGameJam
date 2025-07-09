@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595d21b46bd89b84bbb94c3dbfcdb669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ultimateChargeTime: 5
-  ultimateDuration: 3
+  ultimateChargeTime: 10
+  ultimateDuration: 5
   vampirismMultiplier: 0.3
   maxHealPerSecond: 20

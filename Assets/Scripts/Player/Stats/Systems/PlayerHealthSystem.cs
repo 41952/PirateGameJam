@@ -58,9 +58,6 @@ public class PlayerHealthSystem : MonoBehaviour
             GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
 
         }
-        if (_currentHealth <= 1f)
-            Die();
-        
     }
 
     public void TakeDamage(float amount)
@@ -69,6 +66,9 @@ public class PlayerHealthSystem : MonoBehaviour
         _currentHealth -= amount;
         _currentHealth = Mathf.Max(_currentHealth, 0f);
         GameEvents.RaisePlayerHealthChanged(_currentHealth, _healthStat.FinalValue);
+        if (_currentHealth <= 1f)
+            Die();
+        
     }
 
     public void Heal(float amount)
@@ -85,7 +85,8 @@ public class PlayerHealthSystem : MonoBehaviour
 
     private void Die()
     {
-        // рестарт уровня
-        SceneManager.LoadScene(0);
+        // найти и включить экран статистики
+        FindObjectOfType<GameStatsUI>().ShowStats();
+
     }
 }

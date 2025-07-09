@@ -80,8 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c833ef52e4adf11419a84b870d20b50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smooth: 5
-  multiplier: 2
+  smooth: 7
+  multiplier: 7
 --- !u!114 &9221059023456665543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,9 +103,17 @@ MonoBehaviour:
   reloadTime: 1
   level: 1
   maxLevel: 6
+  recoilDelay: 0.1
+  recoilAmout: 7
+  shakeDelay: 0.1
+  shakeAmout: 0.05
+  cameraScript: {fileID: 0}
   lastFireTime: 0
   reloadTimer: 0
   isReloading: 0
+  firePoint: {fileID: 0}
+  mainCamera: {fileID: 0}
+  animator: {fileID: 0}
   meleeCooldown: 1
   meleeDamage: 25
   synergies: []

@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Body
   - Forward
+  - PortalLink
   layers:
   - Default
   - TransparentFX

@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Equipment/Equipment Data", fileName = "New Equipment Data")]
 public class EquipmentData : ScriptableObject
 {
+    
     [Header("General")]
     public string equipmentName;
     public StatType targetStat;

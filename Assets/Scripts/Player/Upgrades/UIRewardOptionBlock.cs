@@ -80,8 +80,31 @@ public class UIRewardOptionBlock : MonoBehaviour
                 break;
 
             case RewardType.StatBonus:
-                Debug.Log("Стат бонус выбран — пока заглушка");
+            {
+                // Получаем все доступные типы статов
+                var statTypes = System.Enum.GetValues(typeof(StatType)) as StatType[];
+                if (statTypes == null || statTypes.Length == 0)
+                {
+                    Debug.LogWarning("Нет доступных статов для баффа.");
+                    break;
+                }
+
+                // Случайный выбор стата
+                StatType randomStat = statTypes[UnityEngine.Random.Range(0, statTypes.Length)];
+
+                // Получаем сам стат
+                var stat = StatsContainer.Instance.GetStat(randomStat);
+
+                // Вычисляем бонус как 10% от текущего финального значения
+                float bonus = stat.FinalValue * 0.1f;
+
+                // Применяем как постоянный апгрейд
+                stat.AddUpgrade(bonus);
+
+                Debug.Log($"[STAT BONUS] +10% к {randomStat}: +{bonus:F1} (теперь {stat.FinalValue:F1})");
                 break;
+            }
+
         }
     }
 }

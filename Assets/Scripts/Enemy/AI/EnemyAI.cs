@@ -11,6 +11,7 @@ public class EnemyAI : MonoBehaviour
     public float sightRadius = 10f;               // Cone detection distance
     [Range(0, 360)] public float sightAngle = 120f; // Cone detection angle
     public float detectionSphereRadius = 3f;      // Close-proximity sphere detection
+    [HideInInspector] public Transform player;
 
     [Header("Ally Transfer")]
     public float seekAllyRadius = 5f;
@@ -26,16 +27,19 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Navigation")]
     public NavMeshSurface navSurface;             // Assign for dynamic NavMesh rebuild
+    [HideInInspector] public NavMeshAgent agent;
+    public LayerMask obstacleMask;
 
     [Header("Gizmos")]
     public bool drawGizmos = true;
 
-    public LayerMask obstacleMask;
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
 
-    [HideInInspector] public Transform player;
+    [Header("Sounds")]
+
     private float lastDetectedTime = Mathf.NegativeInfinity;
 
-    [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public StateMachine stateMachine;
 
     [HideInInspector] public EnemyHealth health;
@@ -125,29 +129,45 @@ public class EnemyAI : MonoBehaviour
     
     public void ResetEnemy()
     {
-        // 1. Сброс здоровья
         health.ResetHealth();
 
-        // 2. Сброс времени обнаружения
         lastDetectedTime = Mathf.NegativeInfinity;
 
-        // 3. Сброс навигации
-        if (!agent.enabled) agent.enabled = true;
-        agent.ResetPath();
+        // if (!agent.enabled) agent.enabled = true;
+        // agent.ResetPath();
 
-        // 4. Сброс стейт-машины
         stateMachine.Initialize(new IdleState(this, stateMachine));
 
-        // 5. Перестроение навмеша, если надо
-        if (navSurface == null)
-            navSurface = FindObjectOfType<NavMeshSurface>();
+        // if (navSurface == null)
+        //     navSurface = FindObjectOfType<NavMeshSurface>();
 
-        if (navSurface != null)
-            navSurface.BuildNavMesh();
-
-        // 6. Прочие визуальные/аудио эффекты, если есть
         // Например, сброс анимации смерти:
         // animator.Play("Idle");
+    }
+
+    public void PlayAnimation(string animationName)
+    {
+        animator?.Play(animationName);
+    }
+
+    public void SetTrigger(string triggerName)
+    {
+        animator?.SetTrigger(triggerName);
+    }
+
+    public void SetBool(string param, bool value)
+    {
+        animator?.SetBool(param, value);
+    }
+
+    public void SetFloat(string param, float value)
+    {
+        animator?.SetFloat(param, value);
+    }
+
+    public void ResetTrigger(string triggerName)
+    {
+        animator?.ResetTrigger(triggerName);
     }
 
 

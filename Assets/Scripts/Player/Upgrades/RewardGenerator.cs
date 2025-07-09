@@ -71,7 +71,7 @@ public class RewardGenerator : MonoBehaviour
                 {
                     rewardType = RewardType.StatBonus,
                     displayName = "Усиление характеристики",
-                    description = "+10% к случайному стату (заглушка)",
+                    description = "+10% к случайному стату",
                     icon = statBonusIcon
                 });
             }

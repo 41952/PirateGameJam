@@ -5,12 +5,6 @@ public class EnemyHealth : MonoBehaviour
     public float maxHP = 100f;
     private float currentHP;
 
-    private void OnEnable()
-    {
-        ResetHealth();
-    }
-
-
     private void Awake() => currentHP = maxHP;
 
     public void ReceiveDamage(float damage, DamageData data)

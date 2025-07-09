@@ -20,6 +20,10 @@ public class WeaponSwitcher : MonoBehaviour
         ActivateWeapon(0);
 
         GameEvents.OnUltimateStateChanged += OnUltimateStateChanged;
+
+        InputHolder.GetAction(TypeInputAction.Weapon1).started += context => TrySwitchWeapon(0);
+        InputHolder.GetAction(TypeInputAction.Weapon2).started += context => TrySwitchWeapon(1);
+        InputHolder.GetAction(TypeInputAction.WeaponSwitch).started += context => SwitchToOppositeWeapon();
     }
 
     private void OnDestroy()
@@ -27,14 +31,6 @@ public class WeaponSwitcher : MonoBehaviour
         GameEvents.OnUltimateStateChanged -= OnUltimateStateChanged;
     }
 
-    private void Update()
-    {
-        if (switchBlocked) return;
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) TrySwitchWeapon(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) TrySwitchWeapon(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchToOppositeWeapon();
-    }
 
     private void OnUltimateStateChanged(bool active)
     {
@@ -60,6 +56,7 @@ public class WeaponSwitcher : MonoBehaviour
 
     private void ActivateWeapon(int index)
     {
+        if (switchBlocked) return;
         if (inventory.weapons[currentWeaponIndex] != null)
             inventory.weapons[currentWeaponIndex].gameObject.SetActive(false);
 

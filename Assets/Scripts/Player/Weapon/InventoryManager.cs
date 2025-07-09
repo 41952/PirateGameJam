@@ -38,7 +38,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        AssignRandomWeaponToSlot(1); // Например, в слот 1
+        AssignRandomWeaponToSlot(0); // Например, в слот 1
     }
 
     public void AssignRandomWeaponToSlot(int index)

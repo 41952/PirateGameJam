@@ -35,6 +35,7 @@ public class GameplayMenuManager : MonoBehaviour
     [SerializeField]
     private Image hookFillImage;
     [Header("Ultimate")]
+    [SerializeField]
     private Image ultimateFillImage;
 
 
@@ -48,7 +49,6 @@ public class GameplayMenuManager : MonoBehaviour
         GameEvents.OnUltimateCooldown += OnUltimateCooldown;
     }
 
-    
 
     private void OnDisable()
     {

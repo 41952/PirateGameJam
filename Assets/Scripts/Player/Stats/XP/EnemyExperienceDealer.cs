@@ -17,6 +17,7 @@ public class EnemyExperienceDealer : MonoBehaviour
 
     private EnemyHealth health;
     private DamageData lastHitData;
+    private bool xpGranted = false;
 
     private void Awake()
     {
@@ -28,7 +29,10 @@ public class EnemyExperienceDealer : MonoBehaviour
     {
         GameEvents.OnEnemyDamaged += HandleEnemyDamaged;
         GameEvents.OnEnemyDeath += HandleEnemyDeath;
+
+        xpGranted = false; // сброс на всякий случай
     }
+
 
 
     private void OnDisable()
@@ -49,6 +53,13 @@ public class EnemyExperienceDealer : MonoBehaviour
     {
         if (target == null || target.gameObject != gameObject)
             return;
+
+        // Защитим от повторного начисления
+        if (xpGranted)
+            return;
+
+        xpGranted = true;
+
         float totalMultiplier = 1f;
 
         if (zoneMultipliers.TryGetMultiplier(lastHitData.hitZone, out float zoneMult))
@@ -65,6 +76,7 @@ public class EnemyExperienceDealer : MonoBehaviour
             playerXp.AddExperience(xpAward);
         }
     }
+
 }
 
 [Serializable]
